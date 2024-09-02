@@ -22,6 +22,7 @@ export const authOptions: NextAuthConfig = {
   adapter: PrismaAdapter(db),
   pages: {
     signIn: "/auth/login",
+    newUser: "/dashboard/onboard",
   },
   ...authConfig,
 };
