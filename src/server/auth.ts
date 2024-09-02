@@ -18,6 +18,20 @@ export const authOptions: NextAuthConfig = {
       return session;
     },
   },
+  events: {
+    async createUser({ user }) {
+      if (!user.id) {
+        return;
+      }
+
+      // Create a profile for the user
+      await db.profile.create({
+        data: {
+          userId: user.id,
+        },
+      });
+    },
+  },
   session: { strategy: "jwt" },
   adapter: PrismaAdapter(db),
   pages: {

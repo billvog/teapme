@@ -63,7 +63,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {loading && <Loader className="absolute h-4 w-4 animate-spin" />}
-        <div className={loading ? "opacity-0" : "opacity-100"}>
+        <div
+          className={cn("flex flex-row", loading ? "opacity-0" : "opacity-100")}
+        >
           <Slottable>{children}</Slottable>
         </div>
       </Comp>

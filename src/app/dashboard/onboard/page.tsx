@@ -21,7 +21,7 @@ export default async function Page() {
   }
 
   return (
-    <main className="flex h-screen items-center justify-center bg-lime-100">
+    <main className="flex items-center justify-center bg-lime-100">
       <OnboardForm />
     </main>
   );
