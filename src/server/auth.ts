@@ -1,40 +1,26 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import {
-  getServerSession,
-  type DefaultSession,
-  type NextAuthOptions,
-} from "next-auth";
-import { type Adapter } from "next-auth/adapters";
-import GoogleProvider from "next-auth/providers/google";
+import NextAuth, { type NextAuthConfig } from "next-auth";
 
-import { env } from "@/env";
+import authConfig from "@/server/auth.config";
 import { db } from "@/server/db";
 
-declare module "next-auth" {
-  interface Session extends DefaultSession {
-    user: {
-      id: string;
-    } & DefaultSession["user"];
-  }
-}
-
-export const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthConfig = {
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    jwt({ token, user }) {
+      if (user && user.id) {
+        token.id = user.id;
+      }
+
+      return token;
+    },
+    session({ session, token }) {
+      session.user.id = token.id;
+      return session;
+    },
   },
-  adapter: PrismaAdapter(db) as Adapter,
-  providers: [
-    GoogleProvider({
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
-    }),
-  ],
+  session: { strategy: "jwt" },
+  adapter: PrismaAdapter(db),
+  ...authConfig,
 };
 
-export const getServerAuthSession = () => getServerSession(authOptions);
+export const { handlers, signIn, signOut, auth } = NextAuth(authOptions);
