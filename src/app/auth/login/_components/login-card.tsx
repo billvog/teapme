@@ -9,10 +9,20 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
+import { toast } from "sonner";
 
 export default function LoginCard() {
+  const searchParams = useSearchParams();
+
+  React.useEffect(() => {
+    if (searchParams.get("error")) {
+      toast.error("An error occurred while signing in.");
+    }
+  }, [searchParams]);
+
   const handleLogin = (provider: "google") => {
     signIn(provider, {
       callbackUrl: "/dashboard",
