@@ -20,20 +20,18 @@ export default function LoginCard() {
   };
 
   return (
-    <Card>
-      <CardHeader>
+    <Card className="flex h-[300px] w-full max-w-lg flex-col items-center justify-center">
+      <CardHeader className="text-center">
         <CardTitle>🔐 Login</CardTitle>
         <CardDescription>
-          Connect with one of the supported providers.
+          Create, or connect, to your Teapme account. <br />
+          Use one of the following providers to get started.
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <Button
-          onClick={() => handleLogin("google")}
-          className="w-full"
-          size={"lg"}
-        >
+      <CardContent className="flex w-full justify-center">
+        <Button onClick={() => handleLogin("google")} size="lg">
           <FcGoogle size={20} />
+          <span className="ml-2">Sign in with Google</span>
         </Button>
       </CardContent>
     </Card>
