@@ -1,7 +1,9 @@
-import TeaSelect from "@/app/creator/[handle]/_components/tea-select";
+"use client";
+
+import Donate from "@/app/creator/[handle]/_components/donate";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Card } from "@/components/ui/card";
 import { Profile, User } from "@prisma/client";
-import React from "react";
 
 type UserProfileProps = {
   user: User & {
@@ -12,23 +14,30 @@ type UserProfileProps = {
 export default function UserProfile({ user }: UserProfileProps) {
   return (
     <>
-      <div className="flex h-full w-full max-w-2xl flex-col space-y-4 rounded-xl bg-white p-10 shadow-sm">
-        <div className="flex flex-row items-center space-x-4">
-          <Avatar className="h-14 w-14">
-            <AvatarImage src={user.image ?? ""} />
-          </Avatar>
-          <div className="flex flex-col">
-            <span className="text-2xl font-extrabold">{user.name}</span>
-            <span className="font-bold text-gray-400">@{user.handle}</span>
+      <div className="flex h-full w-full max-w-2xl flex-col space-y-4">
+        <Card className="flex w-full flex-col space-y-6 p-10">
+          <div className="flex flex-row items-center space-x-4">
+            <Avatar className="h-16 w-16">
+              <AvatarImage src={user.image ?? ""} />
+            </Avatar>
+            <div className="flex flex-col">
+              <span className="text-3xl font-extrabold">{user.name}</span>
+              <span className="text-lg font-bold text-lime-600">
+                @{user.handle}
+              </span>
+            </div>
           </div>
-        </div>
-        <div>
-          <span>{user.profile.bio}</span>
-        </div>
+          <div>
+            <span className="whitespace-pre">{user.profile.bio}</span>
+          </div>
+        </Card>
+        <Card className="flex w-full flex-col space-y-6 p-10">
+          <h1 className="text-2xl font-extrabold">Top Teappers ✨</h1>
+        </Card>
       </div>
-      <div className="h-full w-full max-w-sm rounded-xl bg-white p-10 shadow-sm">
-        <TeaSelect />
-      </div>
+      <Card className="flex h-full max-w-sm flex-col space-y-6 p-10">
+        <Donate />
+      </Card>
     </>
   );
 }

@@ -2,33 +2,36 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import React from "react";
 
-export default function TeaSelect() {
+const teapEmojiLevels: Array<{ emoji: string; max: number }> = [
+  { emoji: "☕️", max: 2 },
+  { emoji: "🍵", max: 3 },
+  { emoji: "🫖", max: 4 },
+  { emoji: "🫣", max: 5 },
+  { emoji: "🫨", max: 100 },
+  { emoji: "⭐️", max: Infinity },
+];
+
+export default function Donate() {
   const options = [1, 2, 3];
   const unitPrice = 3;
 
-  const [selected, setSelected] = React.useState<number | null>(null);
+  const [selected, setSelected] = React.useState<number | null>(
+    options[0] || 1,
+  );
+
+  const [message, setMessage] = React.useState<string>(String());
 
   const teapEmoji = React.useMemo(() => {
     if (!selected || selected === 0) {
       return null;
     }
 
-    if (selected < 2) {
-      return "☕️";
-    } else if (selected < 3) {
-      return "🍵";
-    } else if (selected < 4) {
-      return "🫖";
-    } else if (selected < 5) {
-      return "🫣";
-    } else if (selected < 100) {
-      return "🫨";
-    } else {
-      return "⭐️";
-    }
+    const level = teapEmojiLevels.find((level) => selected < level.max);
+    return level?.emoji ?? "☕️";
   }, [selected]);
 
   return (
@@ -53,7 +56,12 @@ export default function TeaSelect() {
         <Input
           type="number"
           placeholder="Pick a number"
-          className="border-gray h-12 flex-1 rounded-xl border-2"
+          className={cn(
+            "border-gray h-12 flex-1 rounded-xl border-4 text-center text-xl font-bold shadow-none",
+            options.includes(selected ?? -1)
+              ? "border-gray-300"
+              : "border-blue-500",
+          )}
           value={selected ?? ""}
           onChange={(e) => {
             const targetValue = e.target.value;
@@ -67,6 +75,14 @@ export default function TeaSelect() {
               setSelected(value);
             }
           }}
+        />
+      </div>
+      <div>
+        <Textarea
+          placeholder="Say something nice.."
+          className="border-gray h-12 max-h-32 flex-1 rounded-xl border-2"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
         />
       </div>
       <div>
