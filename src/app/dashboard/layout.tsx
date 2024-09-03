@@ -13,9 +13,9 @@ export default async function Layout({
   }
 
   return (
-    <div className="h-screen bg-lime-100">
+    <div>
       <Navbar avatar={session.user.image ?? undefined} />
-      <div>{children}</div>
+      <div className="flex w-full items-center justify-center">{children}</div>
     </div>
   );
 }

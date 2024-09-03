@@ -15,7 +15,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
-      <body>{children}</body>
+      <body>
+        <div className="h-screen bg-lime-100">{children}</div>
+      </body>
       <Toaster position="bottom-center" richColors />
     </html>
   );

@@ -13,6 +13,9 @@ export default async function Page() {
     where: {
       id: session.user.id,
     },
+    include: {
+      profile: true,
+    },
   });
 
   if (!user) {
@@ -20,8 +23,8 @@ export default async function Page() {
   }
 
   return (
-    <main className="flex w-full items-center justify-center">
-      <ProfileForm />
-    </main>
+    <ProfileForm
+      initialValues={{ name: user.name!, bio: user.profile!.bio! }}
+    />
   );
 }

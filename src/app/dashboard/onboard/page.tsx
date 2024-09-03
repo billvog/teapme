@@ -20,9 +20,5 @@ export default async function Page() {
     return redirect("/dashboard");
   }
 
-  return (
-    <main className="flex items-center justify-center bg-lime-100">
-      <OnboardForm />
-    </main>
-  );
+  return <OnboardForm />;
 }

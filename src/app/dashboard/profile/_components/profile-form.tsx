@@ -1,5 +1,6 @@
 "use client";
 
+import { editProfileAction } from "@/actions/edit-profile";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -21,22 +22,38 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { profileSchema } from "@/schemas/profile.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ThumbsUp } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
-export default function ProfileForm() {
+type ProfileFormProps = {
+  initialValues: z.infer<typeof profileSchema>;
+};
+
+export default function ProfileForm({ initialValues }: ProfileFormProps) {
+  const router = useRouter();
   const [isLoading, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
-    defaultValues: {
-      name: "",
-      bio: "",
-    },
+    defaultValues: initialValues,
   });
 
-  async function onSubmit(values: z.infer<typeof profileSchema>) {}
+  async function onSubmit(values: z.infer<typeof profileSchema>) {
+    startTransition(async () => {
+      const response = await editProfileAction(values);
+      if (response.ok) {
+        router.replace("/dashboard");
+        toast.success("You're all ready!", { icon: <ThumbsUp size={20} /> });
+        return;
+      }
+
+      toast.error("Something went wrong 😔");
+    });
+  }
 
   return (
     <Card className="flex w-full max-w-2xl flex-col items-center justify-center p-8">
