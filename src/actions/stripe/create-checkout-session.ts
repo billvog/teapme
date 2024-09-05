@@ -37,6 +37,9 @@ export async function stripeCreateCheckoutSessionAction(
           quantity: cupsAmount,
         },
       ],
+      metadata: {
+        userId,
+      },
       payment_intent_data: {
         application_fee_amount: 10,
       },
