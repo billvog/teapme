@@ -36,7 +36,7 @@ export default function UserProfile({ user }: UserProfileProps) {
         </Card>
       </div>
       <Card className="flex h-full max-w-sm flex-col space-y-6 p-10">
-        <Donate />
+        <Donate userId={user.id} />
       </Card>
     </>
   );

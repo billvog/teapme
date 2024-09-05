@@ -1,10 +1,12 @@
 "use client";
 
+import { stripeCreateCheckoutSessionAction } from "@/actions/stripe/create-checkout-session";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import React from "react";
+import { toast } from "sonner";
 
 const teapEmojiLevels: Array<{ emoji: string; max: number }> = [
   { emoji: "☕️", max: 2 },
@@ -15,7 +17,11 @@ const teapEmojiLevels: Array<{ emoji: string; max: number }> = [
   { emoji: "⭐️", max: Infinity },
 ];
 
-export default function Donate() {
+type DonateProps = {
+  userId: string;
+};
+
+export default function Donate({ userId }: DonateProps) {
   const options = [1, 2, 3];
   const unitPrice = 3;
 
@@ -33,6 +39,24 @@ export default function Donate() {
     const level = teapEmojiLevels.find((level) => selected < level.max);
     return level?.emoji ?? "☕️";
   }, [selected]);
+
+  const onSubmit = async () => {
+    if (!selected) {
+      return;
+    }
+
+    const { ok, checkoutUrl } = await stripeCreateCheckoutSessionAction(
+      userId,
+      selected,
+    );
+
+    if (ok && checkoutUrl) {
+      window.location.href = checkoutUrl;
+      return;
+    }
+
+    toast.error("Failed to create a checkout session");
+  };
 
   return (
     <div className="flex flex-col space-y-4">
@@ -89,7 +113,11 @@ export default function Donate() {
         {!selected ? (
           <span className="text-base">Select a number of cups to Teap!</span>
         ) : (
-          <Button size="xl" className="text-lg font-extrabold">
+          <Button
+            size="xl"
+            className="text-lg font-extrabold"
+            onClick={onSubmit}
+          >
             <span className="mr-2">{teapEmoji}</span>
             <span>Teap ${selected * unitPrice}</span>
           </Button>
