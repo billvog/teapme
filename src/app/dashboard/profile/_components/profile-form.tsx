@@ -56,7 +56,7 @@ export default function ProfileForm({ initialValues }: ProfileFormProps) {
   }
 
   return (
-    <Card className="max-w-2xl">
+    <Card>
       <CardHeader className="text-center">
         <CardTitle>✍️ Edit Your Profile</CardTitle>
         <CardDescription>

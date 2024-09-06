@@ -1,8 +1,16 @@
+import Navbar from "@/app/_components/navbar";
+import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 
-import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
+import { Bricolage_Grotesque } from "next/font/google";
 import { Toaster } from "sonner";
+
+const bricolageGrotesque = Bricolage_Grotesque({
+  weight: ["500", "700", "800"],
+  subsets: ["latin"],
+  variable: "--display-font",
+});
 
 export const metadata: Metadata = {
   title: "Teapme",
@@ -14,9 +22,10 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
-      <body>
-        <div className="h-screen bg-lime-100">{children}</div>
+    <html lang="en" className={cn(bricolageGrotesque.className)}>
+      <body className="flex h-screen flex-col bg-gray-50">
+        <Navbar />
+        <div className="w-full max-w-4xl self-center py-10">{children}</div>
       </body>
       <Toaster position="bottom-center" richColors />
     </html>

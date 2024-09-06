@@ -23,8 +23,10 @@ export default async function Page() {
   }
 
   return (
-    <ProfileForm
-      initialValues={{ name: user.name!, bio: user.profile!.bio! }}
-    />
+    <main>
+      <ProfileForm
+        initialValues={{ name: user.name!, bio: user.profile!.bio! }}
+      />
+    </main>
   );
 }

@@ -116,7 +116,7 @@ export default function Donate({ userId }: DonateProps) {
         ) : (
           <Button
             size="xl"
-            className="text-lg font-extrabold"
+            className="w-full text-lg font-extrabold"
             onClick={onSubmit}
           >
             <span className="mr-2">{teapEmoji}</span>

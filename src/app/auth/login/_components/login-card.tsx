@@ -30,7 +30,7 @@ export default function LoginCard() {
   };
 
   return (
-    <Card className="h-[300px] max-w-lg p-0">
+    <Card className="h-[300px] p-10">
       <CardHeader className="text-center">
         <CardTitle>🔐 Login</CardTitle>
         <CardDescription>

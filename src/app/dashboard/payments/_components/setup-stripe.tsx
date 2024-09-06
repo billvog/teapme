@@ -34,7 +34,7 @@ export default function SetupStripe({ user }: SetupStripeProps) {
   };
 
   return (
-    <Card className="h-[300px] max-w-lg p-0">
+    <Card className="h-[300px] p-0">
       <CardHeader className="text-center">
         <CardTitle>💰 Payments</CardTitle>
         <CardDescription>

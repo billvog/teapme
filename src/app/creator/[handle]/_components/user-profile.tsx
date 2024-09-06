@@ -16,7 +16,7 @@ type UserProfileProps = {
 export default function UserProfile({ user }: UserProfileProps) {
   return (
     <>
-      <div className="flex h-full w-full max-w-2xl flex-col space-y-4">
+      <div className="flex w-full flex-1 flex-col space-y-4">
         <Card className="flex-col items-start space-y-6 p-10">
           <div className="flex flex-row items-center space-x-4">
             <Avatar className="h-16 w-16">
@@ -40,7 +40,7 @@ export default function UserProfile({ user }: UserProfileProps) {
           <TopTeapers teaps={user.teaps} />
         </Card>
       </div>
-      <Card className="flex h-full max-w-sm flex-col space-y-6 p-10">
+      <Card className="flex h-full max-w-xs flex-col space-y-6 p-10">
         <Donate userId={user.id} />
       </Card>
     </>
