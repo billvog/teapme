@@ -30,7 +30,7 @@ export default function LoginCard() {
   };
 
   return (
-    <Card className="flex h-[300px] w-full max-w-lg flex-col items-center justify-center">
+    <Card className="h-[300px] max-w-lg p-0">
       <CardHeader className="text-center">
         <CardTitle>🔐 Login</CardTitle>
         <CardDescription>
@@ -38,7 +38,7 @@ export default function LoginCard() {
           Use one of the following providers to get started.
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex w-full justify-center">
+      <CardContent>
         <Button onClick={() => handleLogin("google")} size="lg">
           <FcGoogle size={20} />
           <span className="ml-2">Sign in with Google</span>

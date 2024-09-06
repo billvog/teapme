@@ -56,14 +56,14 @@ export default function ProfileForm({ initialValues }: ProfileFormProps) {
   }
 
   return (
-    <Card className="flex w-full max-w-2xl flex-col items-center justify-center p-8">
+    <Card className="max-w-2xl">
       <CardHeader className="text-center">
         <CardTitle>✍️ Edit Your Profile</CardTitle>
         <CardDescription>
           Customize your profile, and make it feel more like you.
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex w-full justify-center">
+      <CardContent>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}

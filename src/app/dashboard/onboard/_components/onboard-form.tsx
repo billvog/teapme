@@ -54,7 +54,7 @@ export default function OnboardForm() {
   }
 
   return (
-    <Card className="flex w-full max-w-lg flex-col items-center justify-center p-8">
+    <Card className="max-w-lg">
       <CardHeader className="text-center">
         <CardTitle>🥳 Welcome!</CardTitle>
         <CardDescription>
@@ -62,7 +62,7 @@ export default function OnboardForm() {
           Now you can pick your handle:
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex w-full justify-center">
+      <CardContent>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}

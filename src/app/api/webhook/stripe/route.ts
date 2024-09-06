@@ -1,4 +1,5 @@
 import { env } from "@/env";
+import { db } from "@/server/db";
 import { stripe } from "@/server/stripe";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -31,7 +32,30 @@ export async function POST(request: Request) {
   let session;
 
   switch (event.type) {
-    case "checkout.session.async_payment_succeeded":
+    case "account.updated":
+      const account = event.data.object as Stripe.Account;
+
+      const user = await db.user.findUnique({
+        where: { stripeAccountId: account.id },
+      });
+
+      if (!user) {
+        return NextResponse.json(
+          { message: "User not found for account ID" },
+          { status: 400 },
+        );
+      }
+
+      // Update the user's account status
+      await db.user.update({
+        data: {
+          hasFinishedStripeOnboarding: account.details_submitted,
+        },
+        where: { id: user.id },
+      });
+
+      break;
+    case "checkout.session.completed":
       session = event.data.object as Stripe.Checkout.Session;
       if (!session.metadata || !session.metadata.userId) {
         return NextResponse.json(

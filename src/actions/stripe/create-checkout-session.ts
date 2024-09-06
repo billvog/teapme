@@ -40,9 +40,6 @@ export async function stripeCreateCheckoutSessionAction(
       metadata: {
         userId,
       },
-      payment_intent_data: {
-        application_fee_amount: 10,
-      },
       mode: "payment",
       success_url: successUrl,
     },

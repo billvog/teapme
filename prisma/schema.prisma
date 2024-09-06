@@ -35,7 +35,8 @@ model User {
   image         String?
   accounts      Account[]
 
-  stripeAccountId String?
+  stripeAccountId             String?  @unique
+  hasFinishedStripeOnboarding Boolean? @default(false)
 
   profile Profile?
 }

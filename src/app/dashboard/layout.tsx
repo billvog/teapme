@@ -1,4 +1,4 @@
-import Navbar from "@/app/dashboard/_components/Navbar";
+import Navbar from "@/app/dashboard/_components/navbar";
 import { auth } from "@/server/auth";
 import React from "react";
 
