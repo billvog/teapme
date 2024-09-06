@@ -1,11 +1,13 @@
 "use server";
 
+import { TEA_PRICE } from "@/constants";
 import { db } from "@/server/db";
 import { stripe } from "@/server/stripe";
 import { headers } from "next/headers";
 
 export async function stripeCreateCheckoutSessionAction(
   userId: string,
+  message: string,
   cupsAmount: number,
 ) {
   const user = await db.user.findUnique({
@@ -23,6 +25,14 @@ export async function stripeCreateCheckoutSessionAction(
   const origin = headers().get("origin");
   const successUrl = `${origin}/creator/${user.handle}/teaped?session_id={CHECKOUT_SESSION_ID}`;
 
+  const teap = await db.teap.create({
+    data: {
+      message,
+      price: cupsAmount * TEA_PRICE,
+      receiverId: userId,
+    },
+  });
+
   const session = await stripe.checkout.sessions.create(
     {
       line_items: [
@@ -32,13 +42,13 @@ export async function stripeCreateCheckoutSessionAction(
             product_data: {
               name: "Cup of Tea",
             },
-            unit_amount: 300, // $3 per cup
+            unit_amount: TEA_PRICE,
           },
           quantity: cupsAmount,
         },
       ],
       metadata: {
-        userId,
+        teapId: teap.id,
       },
       mode: "payment",
       success_url: successUrl,

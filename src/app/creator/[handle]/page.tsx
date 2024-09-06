@@ -1,6 +1,5 @@
 import UserProfile from "@/app/creator/[handle]/_components/user-profile";
 import { db } from "@/server/db";
-import React from "react";
 
 export default async function Page({ params }: { params: { handle: string } }) {
   const user = await db.user.findUnique({
@@ -9,6 +8,15 @@ export default async function Page({ params }: { params: { handle: string } }) {
     },
     include: {
       profile: true,
+      teaps: {
+        where: {
+          isCompleted: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: 10,
+      },
     },
   });
 

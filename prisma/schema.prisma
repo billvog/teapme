@@ -39,6 +39,7 @@ model User {
   hasFinishedStripeOnboarding Boolean? @default(false)
 
   profile Profile?
+  teaps   Teap[]
 }
 
 model Profile {
@@ -46,4 +47,17 @@ model Profile {
   userId String  @unique
   bio    String?
   user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Teap {
+  id          String  @id @default(cuid())
+  message     String?
+  price       Int // in cents (USD)
+  isCompleted Boolean @default(false) // wether stripe payment is completed
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  receiver   User   @relation(fields: [receiverId], references: [id])
+  receiverId String
 }

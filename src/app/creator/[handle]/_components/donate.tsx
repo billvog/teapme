@@ -47,6 +47,7 @@ export default function Donate({ userId }: DonateProps) {
 
     const { ok, checkoutUrl } = await stripeCreateCheckoutSessionAction(
       userId,
+      message,
       selected,
     );
 

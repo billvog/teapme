@@ -57,14 +57,34 @@ export async function POST(request: Request) {
       break;
     case "checkout.session.completed":
       session = event.data.object as Stripe.Checkout.Session;
-      if (!session.metadata || !session.metadata.userId) {
+      if (!session.metadata || !session.metadata.teapId) {
         return NextResponse.json(
-          { message: "Missing userId in metadata" },
+          { message: "Missing teapId in metadata" },
           { status: 400 },
         );
       }
 
-      console.log("Payment was successful!", session);
+      await db.teap.update({
+        where: { id: session.metadata.teapId },
+        data: {
+          isCompleted: session.payment_status === "paid",
+        },
+      });
+
+      break;
+    case "checkout.session.expired":
+      session = event.data.object as Stripe.Checkout.Session;
+      if (!session.metadata || !session.metadata.teapId) {
+        return NextResponse.json(
+          { message: "Missing teapId in metadata" },
+          { status: 400 },
+        );
+      }
+
+      await db.teap.delete({
+        where: { id: session.metadata.teapId },
+      });
+
       break;
     case "checkout.session.async_payment_failed":
       session = event.data.object as Stripe.Checkout.Session;
