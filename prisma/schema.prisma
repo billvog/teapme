@@ -43,10 +43,13 @@ model User {
 }
 
 model Profile {
-  id     String  @id @default(cuid())
-  userId String  @unique
-  bio    String?
-  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id  String  @id @default(cuid())
+  bio String?
+
+  thankYouMessage String? // message to be shown after a user sends a teap
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Teap {
