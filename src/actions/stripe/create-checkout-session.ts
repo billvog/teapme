@@ -1,15 +1,25 @@
 "use server";
 
 import { TEA_PRICE } from "@/constants";
+import { donateSchema } from "@/schemas/donate.schema";
 import { db } from "@/server/db";
 import { stripe } from "@/server/stripe";
 import { headers } from "next/headers";
+import { z } from "zod";
 
 export async function stripeCreateCheckoutSessionAction(
   userId: string,
-  message: string,
-  cupsAmount: number,
+  values: z.infer<typeof donateSchema>,
 ) {
+  const validated = donateSchema.safeParse(values);
+  if (!validated.success) {
+    return {
+      ok: false,
+    };
+  }
+
+  const { message, senderName, cupsAmount } = validated.data;
+
   const user = await db.user.findUnique({
     where: {
       id: userId,
@@ -28,6 +38,7 @@ export async function stripeCreateCheckoutSessionAction(
   const teap = await db.teap.create({
     data: {
       message,
+      senderName,
       price: cupsAmount * TEA_PRICE,
       receiverId: userId,
     },

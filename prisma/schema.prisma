@@ -50,8 +50,10 @@ model Profile {
 }
 
 model Teap {
-  id          String  @id @default(cuid())
-  message     String?
+  id         String  @id @default(cuid())
+  senderName String?
+  message    String?
+
   price       Int // in cents (USD)
   isCompleted Boolean @default(false) // wether stripe payment is completed
 

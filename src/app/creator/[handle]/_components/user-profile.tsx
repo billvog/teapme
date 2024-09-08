@@ -1,5 +1,3 @@
-"use client";
-
 import Donate from "@/app/creator/[handle]/_components/donate";
 import TopTeapers from "@/app/creator/[handle]/_components/top-teapers";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
@@ -33,14 +31,14 @@ export default function UserProfile({ user }: UserProfileProps) {
             <span className="whitespace-pre">{user.profile.bio}</span>
           </div>
         </Card>
-        <Card className="flex-col items-start space-y-6 p-10">
-          <h1 className="self-center text-2xl font-extrabold">
+        <Card className="flex-col items-start space-y-6 px-0 pb-0 pt-10">
+          <h1 className="self-center px-10 text-2xl font-extrabold">
             Top Teappers ✨
           </h1>
           <TopTeapers teaps={user.teaps} />
         </Card>
       </div>
-      <Card className="flex h-full max-w-xs flex-col space-y-6 p-10">
+      <Card className="flex h-full max-w-sm flex-col space-y-6 p-10">
         <Donate userId={user.id} />
       </Card>
     </>

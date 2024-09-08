@@ -25,7 +25,7 @@ export default function RootLayout({
     <html lang="en" className={cn(bricolageGrotesque.className)}>
       <body className="flex h-screen flex-col bg-gray-50">
         <Navbar />
-        <div className="w-full max-w-4xl self-center py-10">{children}</div>
+        <div className="w-full max-w-5xl self-center py-10">{children}</div>
       </body>
       <Toaster position="bottom-center" richColors />
     </html>

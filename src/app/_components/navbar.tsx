@@ -10,7 +10,7 @@ export default async function Navbar() {
 
   return (
     <header className="flex w-full justify-center border-b-4 border-gray-200 bg-white p-8">
-      <div className="flex w-full max-w-4xl items-center justify-between">
+      <div className="flex w-full max-w-5xl items-center justify-between">
         <div>
           <Link href="/" className="text-4xl font-extrabold">
             Teapme
