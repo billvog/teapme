@@ -17,6 +17,8 @@ import { toast } from "sonner";
 export default function LoginCard() {
   const searchParams = useSearchParams();
 
+  const [isLoading, setIsLoading] = React.useState(false);
+
   React.useEffect(() => {
     if (searchParams.get("error")) {
       toast.error("An error occurred while signing in.");
@@ -24,6 +26,7 @@ export default function LoginCard() {
   }, [searchParams]);
 
   const handleLogin = (provider: "google") => {
+    setIsLoading(true);
     signIn(provider, {
       callbackUrl: "/dashboard",
     });
@@ -39,7 +42,11 @@ export default function LoginCard() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Button onClick={() => handleLogin("google")} size="lg">
+        <Button
+          onClick={() => handleLogin("google")}
+          loading={isLoading}
+          size="lg"
+        >
           <FcGoogle size={20} />
           <span className="ml-2">Sign in with Google</span>
         </Button>

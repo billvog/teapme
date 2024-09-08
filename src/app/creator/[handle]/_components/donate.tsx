@@ -25,6 +25,8 @@ export default function Donate({ userId }: DonateProps) {
   const options = [1, 2, 3];
   const unitPrice = 3;
 
+  const [isLoading, startTransition] = React.useTransition();
+
   const [selected, setSelected] = React.useState<number | null>(
     options[0] || 1,
   );
@@ -41,22 +43,24 @@ export default function Donate({ userId }: DonateProps) {
   }, [selected]);
 
   const onSubmit = async () => {
-    if (!selected) {
-      return;
-    }
+    startTransition(async () => {
+      if (!selected) {
+        return;
+      }
 
-    const { ok, checkoutUrl } = await stripeCreateCheckoutSessionAction(
-      userId,
-      message,
-      selected,
-    );
+      const { ok, checkoutUrl } = await stripeCreateCheckoutSessionAction(
+        userId,
+        message,
+        selected,
+      );
 
-    if (ok && checkoutUrl) {
-      window.location.href = checkoutUrl;
-      return;
-    }
+      if (ok && checkoutUrl) {
+        window.location.href = checkoutUrl;
+        return;
+      }
 
-    toast.error("Failed to create a checkout session");
+      toast.error("Failed to create a checkout session");
+    });
   };
 
   return (
@@ -116,8 +120,9 @@ export default function Donate({ userId }: DonateProps) {
         ) : (
           <Button
             size="xl"
-            className="w-full text-lg font-extrabold"
             onClick={onSubmit}
+            loading={isLoading}
+            className="w-full text-lg font-extrabold"
           >
             <span className="mr-2">{teapEmoji}</span>
             <span>Teap ${selected * unitPrice}</span>

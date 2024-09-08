@@ -54,7 +54,7 @@ export default function OnboardForm() {
   }
 
   return (
-    <Card className="max-w-lg">
+    <Card className="mx-auto max-w-lg">
       <CardHeader className="text-center">
         <CardTitle>🥳 Welcome!</CardTitle>
         <CardDescription>

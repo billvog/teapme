@@ -16,7 +16,7 @@ export default async function Page() {
     },
   });
 
-  if (user?.handle) {
+  if (!user?.handle) {
     return redirect("/dashboard");
   }
 

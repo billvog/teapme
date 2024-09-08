@@ -6,6 +6,6 @@ export default async function Page() {
   if (!user) return null;
 
   return (
-    <main>{user.hasFinishedStripeOnboarding && <SetupPaymentsNotice />}</main>
+    <main>{!user.hasFinishedStripeOnboarding && <SetupPaymentsNotice />}</main>
   );
 }
