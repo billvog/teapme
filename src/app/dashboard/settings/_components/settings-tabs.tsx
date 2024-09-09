@@ -1,5 +1,6 @@
 "use client";
 
+import PaymentsStripe from "@/app/dashboard/settings/_components/payments-stripe";
 import ProfileDonations from "@/app/dashboard/settings/_components/profile-donations";
 import ProfileGeneral from "@/app/dashboard/settings/_components/profile-general";
 import { cn } from "@/lib/utils";
@@ -58,9 +59,9 @@ const getTabsGroups = (user: SettingsTabsProps["user"]): TabGroup[] => [
         id: "payments.stripe",
         title: "Stripe",
         content: (
-          <div>
-            <h1>Stripe</h1>
-          </div>
+          <PaymentsStripe
+            hasUserFinishedStripeOnboarding={user.hasFinishedStripeOnboarding}
+          />
         ),
       },
     ],

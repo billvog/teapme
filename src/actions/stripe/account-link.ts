@@ -7,7 +7,8 @@ import { headers } from "next/headers";
 
 export async function stripeAccountLinkAction() {
   const origin = headers().get("origin");
-  const url = `${origin}/dashboard/payments`;
+  const refreshUrl = `${origin}/dashboard/payments/refresh`;
+  const returnUrl = `${origin}/dashboard/settings?tab=payments.stripe`;
 
   const session = await auth();
   if (!session) {
@@ -49,8 +50,8 @@ export async function stripeAccountLinkAction() {
     // Create an account link
     const accountLink = await stripe.accountLinks.create({
       account: user.stripeAccountId!,
-      refresh_url: `${url}/refresh/${user.stripeAccountId}`,
-      return_url: `${url}/return/${user.stripeAccountId}`,
+      return_url: returnUrl,
+      refresh_url: refreshUrl,
       type: "account_onboarding",
     });
 

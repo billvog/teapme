@@ -60,7 +60,12 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+
+  a.link {
+    @apply font-bold text-blue-500 underline-offset-4 hover:underline;
   }
 }

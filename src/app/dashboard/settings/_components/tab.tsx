@@ -11,11 +11,11 @@ Tab.Title = ({ children }: { children: React.ReactNode }) => {
 };
 
 Tab.Subtitle = ({ children }: { children: React.ReactNode }) => {
-  return <p>{children}</p>;
+  return <p className="text-gray-500">{children}</p>;
 };
 
 Tab.Content = ({ children }: { children: React.ReactNode }) => {
-  return <div>{children}</div>;
+  return <div className="w-full">{children}</div>;
 };
 
 export default Tab;
