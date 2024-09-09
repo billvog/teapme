@@ -1,7 +1,9 @@
 "use client";
 
 import { editProfileAction } from "@/actions/profile/edit-profile";
+import EditAvatarDialog from "@/app/dashboard/settings/_components/dialogs/edit-avatar";
 import Tab from "@/app/dashboard/settings/_components/tab";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -17,6 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { profileSchema } from "@/schemas/profile.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ThumbsUp } from "lucide-react";
+import Image from "next/image";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -24,9 +27,13 @@ import { z } from "zod";
 
 type ProfileGeneralProps = {
   initialValues: z.infer<typeof profileSchema>;
+  userAvatar: string;
 };
 
-export default function ProfileGeneral({ initialValues }: ProfileGeneralProps) {
+export default function ProfileGeneral({
+  initialValues,
+  userAvatar,
+}: ProfileGeneralProps) {
   const [isLoading, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof profileSchema>>({
@@ -54,7 +61,26 @@ export default function ProfileGeneral({ initialValues }: ProfileGeneralProps) {
           Customize your profile, and make it feel more like you.
         </Tab.Subtitle>
       </Tab.Header>
-      <Tab.Content>
+      <Tab.Content className="flex flex-col gap-10">
+        <div className="group relative">
+          <Image
+            alt="banner"
+            src="https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?q=80&w=2992&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="h-[200px] w-full object-cover"
+          />
+          <div className="absolute -bottom-4 left-5 flex flex-row items-center gap-4">
+            <Avatar className="h-20 w-20 cursor-pointer self-center">
+              <AvatarImage src={userAvatar} />
+              <EditAvatarDialog />
+            </Avatar>
+            <div className="cursor-pointer rounded-xl bg-black bg-opacity-50 px-3 py-1 text-sm text-white opacity-0 group-hover:opacity-100">
+              Change Banner
+            </div>
+          </div>
+        </div>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}

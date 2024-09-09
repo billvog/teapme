@@ -34,6 +34,7 @@ const getTabsGroups = (user: SettingsTabsProps["user"]): TabGroup[] => [
               name: user.name!,
               bio: user.profile.bio!,
             }}
+            userAvatar={user.image!}
           />
         ),
       },

@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 function Tab({ children }: { children: React.ReactNode }) {
   return <div className="space-y-10">{children}</div>;
 }
@@ -14,8 +16,14 @@ Tab.Subtitle = ({ children }: { children: React.ReactNode }) => {
   return <p className="text-gray-500">{children}</p>;
 };
 
-Tab.Content = ({ children }: { children: React.ReactNode }) => {
-  return <div className="w-full">{children}</div>;
+Tab.Content = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  return <div className={cn("w-full", className)}>{children}</div>;
 };
 
 export default Tab;
