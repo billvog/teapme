@@ -1,7 +1,8 @@
 import Donate from "@/app/creator/[handle]/_components/donate";
 import TopTeapers from "@/app/creator/[handle]/_components/top-teapers";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
+import { getUserAvatarFallback } from "@/lib/user-profile";
 import { Profile, Teap, User } from "@prisma/client";
 
 type UserProfileProps = {
@@ -19,6 +20,7 @@ export default function UserProfile({ user }: UserProfileProps) {
           <div className="flex flex-row items-center space-x-4">
             <Avatar className="h-16 w-16">
               <AvatarImage src={user.image ?? ""} />
+              <AvatarFallback>{getUserAvatarFallback(user)}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
               <span className="text-3xl font-extrabold">{user.name}</span>

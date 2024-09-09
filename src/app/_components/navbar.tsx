@@ -2,6 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import useUser from "@/hooks/useUser";
+import { getUserAvatarFallback } from "@/lib/user-profile";
 import Link from "next/link";
 import React from "react";
 
@@ -23,7 +24,7 @@ export default async function Navbar() {
               <Link href="/dashboard/profile">
                 <Avatar>
                   <AvatarImage src={user.image ?? undefined} />
-                  <AvatarFallback>VV</AvatarFallback>
+                  <AvatarFallback>{getUserAvatarFallback(user)}</AvatarFallback>
                 </Avatar>
               </Link>
             </>
