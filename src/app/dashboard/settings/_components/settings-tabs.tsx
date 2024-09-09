@@ -34,7 +34,7 @@ const getTabsGroups = (user: SettingsTabsProps["user"]): TabGroup[] => [
               name: user.name!,
               bio: user.profile.bio!,
             }}
-            userAvatar={user.image!}
+            user={user!}
           />
         ),
       },
@@ -98,7 +98,7 @@ export default function SettingsTabs({ user }: SettingsTabsProps) {
     if (tabId && flatTabs.some((tab) => tab.id === tabId)) {
       setActiveTabId(tabId);
     } else {
-      setActiveTabId(flatTabs[0]?.id ?? "profile.general");
+      setActiveTabId(flatTabs[0]?.id || "profile.general");
     }
   }, []);
 

@@ -43,8 +43,9 @@ model User {
 }
 
 model Profile {
-  id  String  @id @default(cuid())
-  bio String?
+  id     String  @id @default(cuid())
+  bio    String?
+  banner String?
 
   thankYouMessage String? // message to be shown after a user sends a teap
 

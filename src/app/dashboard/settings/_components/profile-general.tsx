@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { profileSchema } from "@/schemas/profile.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Profile, User } from "@prisma/client";
 import { ThumbsUp } from "lucide-react";
 import Image from "next/image";
 import { useTransition } from "react";
@@ -27,12 +28,14 @@ import { z } from "zod";
 
 type ProfileGeneralProps = {
   initialValues: z.infer<typeof profileSchema>;
-  userAvatar: string;
+  user: User & {
+    profile: Profile;
+  };
 };
 
 export default function ProfileGeneral({
   initialValues,
-  userAvatar,
+  user,
 }: ProfileGeneralProps) {
   const [isLoading, startTransition] = useTransition();
 
@@ -65,7 +68,7 @@ export default function ProfileGeneral({
         <div className="group relative">
           <Image
             alt="banner"
-            src="https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?q=80&w=2992&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src={user.profile.banner ?? ""}
             width={0}
             height={0}
             sizes="100vw"
@@ -73,7 +76,7 @@ export default function ProfileGeneral({
           />
           <div className="absolute -bottom-4 left-5 flex flex-row items-center gap-4">
             <Avatar className="h-20 w-20 cursor-pointer self-center">
-              <AvatarImage src={userAvatar} />
+              <AvatarImage src={user.image!} />
               <EditAvatarDialog />
             </Avatar>
             <div className="cursor-pointer rounded-xl bg-black bg-opacity-50 px-3 py-1 text-sm text-white opacity-0 group-hover:opacity-100">

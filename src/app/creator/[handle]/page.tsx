@@ -28,9 +28,5 @@ export default async function Page({ params }: { params: { handle: string } }) {
     );
   }
 
-  return (
-    <div className="flex w-full justify-center space-x-4">
-      <UserProfile user={user as any} />
-    </div>
-  );
+  return <UserProfile user={user as any} />;
 }
