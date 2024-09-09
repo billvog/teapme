@@ -112,7 +112,14 @@ export default function SettingsTabs({ user }: SettingsTabsProps) {
       <div className="flex h-full flex-col space-y-4 border-r-4">
         {tabGroups.map((group) => (
           <div key={group.id} className="mr-10 space-y-4">
-            <div className="text-2xl font-bold">{group.title}</div>
+            <div
+              className="cursor-pointer text-2xl font-bold"
+              onClick={() => {
+                if (group.tabs[0]) setActiveTabId(group.tabs[0].id);
+              }}
+            >
+              {group.title}
+            </div>
             <div className="space-y-2">
               {group.tabs.map((tab) => (
                 <div key={tab.id} className="relative">

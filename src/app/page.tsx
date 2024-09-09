@@ -17,13 +17,16 @@ export default function Page() {
           than 4 minutes.{" "}
           <span className="font-bold">No beans, just leaves!</span> 🍃
         </p>
-        <Button
-          className="text-xl font-extrabold"
-          variant="secondary"
-          size="xl"
-        >
-          <Link href="/auth/login">Get Started Now</Link>
-        </Button>
+
+        <Link href="/auth/login">
+          <Button
+            className="text-xl font-extrabold"
+            variant="secondary"
+            size="xl"
+          >
+            Claim Your Handle Now 🤩
+          </Button>
+        </Link>
       </Section>
     </main>
   );
