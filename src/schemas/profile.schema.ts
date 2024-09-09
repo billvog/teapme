@@ -7,3 +7,7 @@ export const profileSchema = z.object({
     .max(50, "Must be at most 50 characters"),
   bio: z.string().max(160, "Must be at most 160 characters"),
 });
+
+export const profileDonationsSchema = z.object({
+  thankYouMessage: z.string().max(160, "Must be at most 160 characters"),
+});

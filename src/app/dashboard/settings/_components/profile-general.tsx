@@ -1,14 +1,8 @@
 "use client";
 
 import { editProfileAction } from "@/actions/edit-profile";
+import Tab from "@/app/dashboard/settings/_components/tab";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -23,18 +17,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { profileSchema } from "@/schemas/profile.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ThumbsUp } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-type ProfileFormProps = {
+type ProfileGeneralProps = {
   initialValues: z.infer<typeof profileSchema>;
 };
 
-export default function ProfileForm({ initialValues }: ProfileFormProps) {
-  const router = useRouter();
+export default function ProfileGeneral({ initialValues }: ProfileGeneralProps) {
   const [isLoading, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof profileSchema>>({
@@ -46,8 +38,7 @@ export default function ProfileForm({ initialValues }: ProfileFormProps) {
     startTransition(async () => {
       const response = await editProfileAction(values);
       if (response.ok) {
-        router.replace("/dashboard");
-        toast.success("You're all ready!", { icon: <ThumbsUp size={20} /> });
+        toast.success("Profile updated!", { icon: <ThumbsUp size={20} /> });
         return;
       }
 
@@ -56,14 +47,14 @@ export default function ProfileForm({ initialValues }: ProfileFormProps) {
   }
 
   return (
-    <Card>
-      <CardHeader className="text-center">
-        <CardTitle>✍️ Edit Your Profile</CardTitle>
-        <CardDescription>
+    <Tab>
+      <Tab.Header>
+        <Tab.Title>✍️ Edit Your Profile</Tab.Title>
+        <Tab.Subtitle>
           Customize your profile, and make it feel more like you.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
+        </Tab.Subtitle>
+      </Tab.Header>
+      <Tab.Content>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -107,7 +98,7 @@ export default function ProfileForm({ initialValues }: ProfileFormProps) {
             </Button>
           </form>
         </Form>
-      </CardContent>
-    </Card>
+      </Tab.Content>
+    </Tab>
   );
 }

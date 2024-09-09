@@ -21,7 +21,7 @@ export default async function Navbar() {
           {user ? (
             <>
               <Link href={`/@${user.handle}`}>Your page</Link>
-              <Link href="/dashboard/profile">
+              <Link href="/dashboard/settings">
                 <Avatar>
                   <AvatarImage src={user.image ?? undefined} />
                   <AvatarFallback>{getUserAvatarFallback(user)}</AvatarFallback>
