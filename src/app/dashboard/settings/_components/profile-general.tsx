@@ -1,6 +1,6 @@
 "use client";
 
-import { editProfileAction } from "@/actions/edit-profile";
+import { editProfileAction } from "@/actions/profile/edit-profile";
 import Tab from "@/app/dashboard/settings/_components/tab";
 import { Button } from "@/components/ui/button";
 import {

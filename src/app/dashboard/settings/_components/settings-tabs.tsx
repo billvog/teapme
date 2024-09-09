@@ -42,8 +42,9 @@ const getTabsGroups = (user: SettingsTabsProps["user"]): TabGroup[] => [
         content: (
           <ProfileDonations
             initialValues={{
-              thankYouMessage: "",
+              thankYouMessage: user.profile.thankYouMessage || "",
             }}
+            userHandle={user.handle!}
           />
         ),
       },
