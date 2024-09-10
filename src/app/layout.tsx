@@ -16,7 +16,14 @@ const bricolageGrotesque = Bricolage_Grotesque({
 export const metadata: Metadata = {
   title: "Teapme",
   description: "Tipping for folks who ain't fancy coffee.",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [{ rel: "icon", url: "/favicon.png" }],
+  openGraph: {
+    type: "website",
+    title: "Teapme",
+    siteName: "Teapme",
+    description: "Tipping for folks who ain't fancy coffee.",
+    url: "https://teapme.com",
+  },
 };
 
 export default function RootLayout({
