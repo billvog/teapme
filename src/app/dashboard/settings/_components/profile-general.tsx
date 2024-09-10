@@ -20,7 +20,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { profileSchema } from "@/schemas/profile.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ThumbsUp } from "lucide-react";
+import { Pencil, ThumbsUp } from "lucide-react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -83,23 +83,28 @@ export default function ProfileGeneral() {
         </Tab.Subtitle>
       </Tab.Header>
       <Tab.Content className="flex flex-col gap-10">
-        <div className="group relative">
-          <Image
-            alt="banner"
-            src={user.profile?.banner ?? ""}
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="h-[200px] w-full object-cover"
-          />
-          <div className="absolute -bottom-4 left-5 flex flex-row items-center gap-4">
-            <Avatar className="h-20 w-20 cursor-pointer self-center">
+        <div className="relative">
+          <div className="group">
+            <Image
+              alt="banner"
+              src={user.profile?.banner ?? ""}
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="h-[200px] w-full object-cover"
+            />
+            <div className="absolute bottom-0 right-0 top-0 flex w-full items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100">
+              <div className="flex cursor-pointer flex-row items-center gap-2 px-3 py-1">
+                <Pencil color="white" size={20} />
+                <span className="text-base text-white">Edit Banner</span>
+              </div>
+            </div>
+          </div>
+          <div className="group absolute -bottom-4 left-5">
+            <Avatar className="h-20 w-20 cursor-pointer">
               <AvatarImage src={user.image ?? ""} />
               <EditAvatarDialog />
             </Avatar>
-            <div className="cursor-pointer rounded-xl bg-black bg-opacity-50 px-3 py-1 text-sm text-white opacity-0 group-hover:opacity-100">
-              Change Banner
-            </div>
           </div>
         </div>
         <Form {...form}>
