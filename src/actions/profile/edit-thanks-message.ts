@@ -5,7 +5,7 @@ import { auth } from "@/server/auth";
 import { db } from "@/server/db";
 import { z } from "zod";
 
-export async function editThanksMessageAction(
+export async function profileEditThanksMessage(
   values: z.infer<typeof profileThanksMessageSchema>,
 ) {
   const validated = profileThanksMessageSchema.safeParse(values);

@@ -1,32 +1,23 @@
+"use server";
+
+import { getUserProfile } from "@/actions/profile/get-profile";
 import UserProfile from "@/app/creator/[handle]/_components/user-profile";
-import { db } from "@/server/db";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 
 export default async function Page({ params }: { params: { handle: string } }) {
-  const user = await db.user.findUnique({
-    where: {
-      handle: params.handle,
-    },
-    include: {
-      profile: true,
-      teaps: {
-        where: {
-          isCompleted: true,
-        },
-        orderBy: {
-          createdAt: "desc",
-        },
-        take: 10,
-      },
-    },
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ["user", params.handle],
+    queryFn: () => getUserProfile(params.handle),
   });
 
-  if (!user) {
-    return (
-      <div>
-        <span className="font-bold text-red-500">User not found!</span>
-      </div>
-    );
-  }
-
-  return <UserProfile user={user as any} />;
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <UserProfile userHandle={params.handle} />
+    </HydrationBoundary>
+  );
 }

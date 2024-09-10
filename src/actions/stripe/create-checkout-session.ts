@@ -7,7 +7,7 @@ import { stripe } from "@/server/stripe";
 import { headers } from "next/headers";
 import { z } from "zod";
 
-export async function stripeCreateCheckoutSessionAction(
+export async function createStripeCheckoutSession(
   userId: string,
   values: z.infer<typeof donateSchema>,
 ) {

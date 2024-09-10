@@ -1,33 +1,37 @@
 "use client";
 
-import { stripeAccountLinkAction } from "@/actions/stripe/account-link";
+import { createStripeAccountLink } from "@/actions/stripe/account-link";
+import { useAuth } from "@/app/_contexts/AuthContext";
 import Tab from "@/app/dashboard/settings/_components/tab";
 import { Button } from "@/components/ui/button";
+import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { toast } from "sonner";
 
-type PaymentsStripeProps = {
-  hasUserFinishedStripeOnboarding: boolean | null;
-};
+export default function PaymentsStripe() {
+  const { user } = useAuth();
 
-export default function PaymentsStripe({
-  hasUserFinishedStripeOnboarding,
-}: PaymentsStripeProps) {
   const [canSubmit, setCanSubmit] = React.useState(true);
-  const [isLoading, startTransition] = React.useTransition();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: createStripeAccountLink,
+  });
 
   const setupPayments = async () => {
-    startTransition(async () => {
-      const { ok, accountLink } = await stripeAccountLinkAction();
-      if (ok && accountLink) {
-        setCanSubmit(false);
-        window.location.href = accountLink;
-        return;
-      }
+    mutate(undefined, {
+      onSuccess(data) {
+        if (data.ok && data.accountLink) {
+          setCanSubmit(false);
+          window.location.href = data.accountLink;
+          return;
+        }
 
-      toast.error("Something went wrong! Please try again.");
+        toast.error("Something went wrong! Please try again.");
+      },
     });
   };
+
+  if (!user) return null;
 
   return (
     <Tab>
@@ -35,7 +39,7 @@ export default function PaymentsStripe({
         <Tab.Title>💰 Payments</Tab.Title>
         <Tab.Subtitle>
           We handle payments through Stripe.
-          {!hasUserFinishedStripeOnboarding && (
+          {!user.hasFinishedStripeOnboarding && (
             <>
               <br />
               You can create an account or link an existing account.
@@ -44,7 +48,7 @@ export default function PaymentsStripe({
         </Tab.Subtitle>
       </Tab.Header>
       <Tab.Content>
-        {hasUserFinishedStripeOnboarding ? (
+        {user.hasFinishedStripeOnboarding ? (
           <div className="mx-auto w-fit rounded bg-green-100 px-10 py-6 text-center font-semibold text-green-700">
             You've successfully set up payments with Stripe! 🎉 <br />
             You can now start receiving payments ☕️
@@ -54,7 +58,7 @@ export default function PaymentsStripe({
             <Button
               className="text-base font-bold"
               onClick={setupPayments}
-              loading={isLoading}
+              loading={isPending}
               disabled={!canSubmit}
               size="lg"
             >

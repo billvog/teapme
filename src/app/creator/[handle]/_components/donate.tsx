@@ -1,6 +1,6 @@
 "use client";
 
-import { stripeCreateCheckoutSessionAction } from "@/actions/stripe/create-checkout-session";
+import { createStripeCheckoutSession } from "@/actions/stripe/create-checkout-session";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -57,7 +57,7 @@ export default function Donate({ userId }: DonateProps) {
 
   const onSubmit = async (values: z.infer<typeof donateSchema>) => {
     startTransition(async () => {
-      const { ok, checkoutUrl } = await stripeCreateCheckoutSessionAction(
+      const { ok, checkoutUrl } = await createStripeCheckoutSession(
         userId,
         values,
       );

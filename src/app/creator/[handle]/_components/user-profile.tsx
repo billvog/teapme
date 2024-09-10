@@ -1,25 +1,32 @@
+"use client";
+
+import { getUserProfile } from "@/actions/profile/get-profile";
 import Donate from "@/app/creator/[handle]/_components/donate";
 import TopTeapers from "@/app/creator/[handle]/_components/top-teapers";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { getUserAvatarFallback } from "@/lib/user-profile";
-import { Profile, Teap, User } from "@prisma/client";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 
 type UserProfileProps = {
-  user: User & {
-    profile: Profile;
-    teaps: Teap[];
-  };
+  userHandle: string;
 };
 
-export default function UserProfile({ user }: UserProfileProps) {
+export default function UserProfile({ userHandle }: UserProfileProps) {
+  const { data: userData } = useQuery({
+    queryKey: ["user", userHandle],
+    queryFn: () => getUserProfile(userHandle),
+  });
+
+  if (!userData) return null;
+
   return (
     <div className="flex flex-col items-center">
       <div className="group w-[calc(100%+50px)]">
         <Image
           alt="banner"
-          src={user.profile.banner ?? ""}
+          src={userData.profile?.banner ?? ""}
           width={0}
           height={0}
           sizes="100vw"
@@ -31,29 +38,31 @@ export default function UserProfile({ user }: UserProfileProps) {
           <Card className="flex-col items-start space-y-6 p-10">
             <div className="flex flex-row items-center space-x-4">
               <Avatar className="h-16 w-16">
-                <AvatarImage src={user.image ?? ""} />
-                <AvatarFallback>{getUserAvatarFallback(user)}</AvatarFallback>
+                <AvatarImage src={userData.image ?? ""} />
+                <AvatarFallback>
+                  {getUserAvatarFallback(userData)}
+                </AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
-                <span className="text-3xl font-extrabold">{user.name}</span>
+                <span className="text-3xl font-extrabold">{userData.name}</span>
                 <span className="text-lg font-bold text-lime-600">
-                  @{user.handle}
+                  @{userData.handle}
                 </span>
               </div>
             </div>
             <div>
-              <span className="whitespace-pre">{user.profile.bio}</span>
+              <span className="whitespace-pre">{userData.profile?.bio}</span>
             </div>
           </Card>
           <Card className="flex-col items-start space-y-6 px-0 pb-0 pt-10">
             <h1 className="self-center px-10 text-2xl font-extrabold">
               Top Teappers ✨
             </h1>
-            <TopTeapers teaps={user.teaps} />
+            <TopTeapers teaps={userData.teaps} />
           </Card>
         </div>
         <Card className="flex h-full max-w-sm flex-col space-y-6 p-10">
-          <Donate userId={user.id} />
+          <Donate userId={userData.id} />
         </Card>
       </div>
     </div>

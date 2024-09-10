@@ -1,6 +1,7 @@
 "use client";
 
-import { editThanksMessageAction } from "@/actions/profile/edit-thanks-message";
+import { profileEditThanksMessage } from "@/actions/profile/edit-thanks-message";
+import { ContextUser, useAuth } from "@/app/_contexts/AuthContext";
 import Tab from "@/app/dashboard/settings/_components/tab";
 import DonateThanksMessage from "@/components/donate-thanks-message";
 import { Button } from "@/components/ui/button";
@@ -16,39 +17,57 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { profileThanksMessageSchema } from "@/schemas/profile.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ThumbsUp } from "lucide-react";
-import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-type ProfileDonationsProps = {
-  initialValues: z.infer<typeof profileThanksMessageSchema>;
-  userHandle: string;
-};
-
-export default function ProfileDonations({
-  initialValues,
-  userHandle,
-}: ProfileDonationsProps) {
-  const [isLoading, startTransition] = useTransition();
+export default function ProfileDonations() {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof profileThanksMessageSchema>>({
     resolver: zodResolver(profileThanksMessageSchema),
-    defaultValues: initialValues,
+    defaultValues: {
+      thankYouMessage: user?.profile?.thankYouMessage ?? "",
+    },
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: profileEditThanksMessage,
   });
 
   async function onSubmit(values: z.infer<typeof profileThanksMessageSchema>) {
-    startTransition(async () => {
-      const response = await editThanksMessageAction(values);
-      if (response.ok) {
-        toast.success("Message updated!", { icon: <ThumbsUp size={20} /> });
-        return;
-      }
+    mutate(values, {
+      onSuccess(data) {
+        if (!data.ok) {
+          toast.error("Something went wrong 😔");
+          return;
+        }
 
-      toast.error("Something went wrong 😔");
+        toast.success("Message updated!", { icon: <ThumbsUp size={20} /> });
+
+        // Update cache
+        queryClient.setQueryData<ContextUser>(["user", "me"], (old) =>
+          old
+            ? {
+                ...old,
+                profile: {
+                  ...old.profile!,
+                  thankYouMessage: values.thankYouMessage,
+                },
+              }
+            : old,
+        );
+      },
+      onError() {
+        toast.error("Something went wrong 😔");
+      },
     });
   }
+
+  if (!user) return null;
 
   return (
     <Tab>
@@ -87,12 +106,12 @@ export default function ProfileDonations({
               <h2 className="mb-2 text-xl">Preview</h2>
               <div className="rounded border">
                 <DonateThanksMessage
-                  userHandle={userHandle}
+                  userHandle={user.handle ?? ""}
                   message={form.watch("thankYouMessage")}
                 />
               </div>
             </div>
-            <Button type="submit" loading={isLoading}>
+            <Button type="submit" loading={isPending}>
               Seems fine! 👌
             </Button>
           </form>

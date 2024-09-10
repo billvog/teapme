@@ -1,13 +1,13 @@
-"use server";
+"use client";
 
+import { useAuth } from "@/app/_contexts/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import useUser from "@/hooks/useUser";
 import { getUserAvatarFallback } from "@/lib/user-profile";
 import Link from "next/link";
 import React from "react";
 
-export default async function Navbar() {
-  const user = await useUser();
+export default function Navbar() {
+  const { user, isLoading } = useAuth();
 
   return (
     <header className="flex w-full justify-center border-b-4 border-gray-200 bg-white p-8">
@@ -18,7 +18,7 @@ export default async function Navbar() {
           </Link>
         </div>
         <div className="flex items-center gap-10">
-          {user ? (
+          {isLoading ? null : user ? (
             <>
               <Link href={`/@${user.handle}`}>Your page</Link>
               <Link href="/dashboard/settings">

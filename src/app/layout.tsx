@@ -1,4 +1,5 @@
 import Navbar from "@/app/_components/navbar";
+import Providers from "@/app/providers";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 
@@ -24,10 +25,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn(bricolageGrotesque.className)}>
       <body className="flex h-screen flex-col bg-gray-50">
-        <Navbar />
-        <div className="h-full w-full max-w-5xl self-center py-10">
-          {children}
-        </div>
+        <Providers>
+          <>
+            <Navbar />
+            <div className="h-full w-full max-w-5xl self-center py-10">
+              {children}
+            </div>
+          </>
+        </Providers>
       </body>
       <Toaster position="bottom-center" richColors />
     </html>

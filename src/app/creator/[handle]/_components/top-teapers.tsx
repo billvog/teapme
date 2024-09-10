@@ -5,7 +5,7 @@ type TopTeapersProps = {
   teaps: Teap[];
 };
 
-export default async function TopTeapers({ teaps }: TopTeapersProps) {
+export default function TopTeapers({ teaps }: TopTeapersProps) {
   return (
     <div className="flex w-full flex-col divide-y-2 divide-gray-100 border-t-2 border-gray-100">
       {teaps.map((teap) => (

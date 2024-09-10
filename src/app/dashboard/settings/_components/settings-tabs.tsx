@@ -1,10 +1,10 @@
 "use client";
 
+import { useAuth } from "@/app/_contexts/AuthContext";
 import PaymentsStripe from "@/app/dashboard/settings/_components/payments-stripe";
 import ProfileDonations from "@/app/dashboard/settings/_components/profile-donations";
 import ProfileGeneral from "@/app/dashboard/settings/_components/profile-general";
 import { cn } from "@/lib/utils";
-import { Profile, User } from "@prisma/client";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
@@ -20,7 +20,7 @@ type TabGroup = {
   tabs: Tab[];
 };
 
-const getTabsGroups = (user: SettingsTabsProps["user"]): TabGroup[] => [
+const getTabsGroups = (): TabGroup[] => [
   {
     id: "profile",
     title: "Profile",
@@ -28,27 +28,12 @@ const getTabsGroups = (user: SettingsTabsProps["user"]): TabGroup[] => [
       {
         id: "profile.general",
         title: "General",
-        content: (
-          <ProfileGeneral
-            initialValues={{
-              name: user.name!,
-              bio: user.profile.bio!,
-            }}
-            user={user!}
-          />
-        ),
+        content: <ProfileGeneral />,
       },
       {
         id: "profile.donations",
         title: "Donations",
-        content: (
-          <ProfileDonations
-            initialValues={{
-              thankYouMessage: user.profile.thankYouMessage || "",
-            }}
-            userHandle={user.handle!}
-          />
-        ),
+        content: <ProfileDonations />,
       },
     ],
   },
@@ -59,27 +44,17 @@ const getTabsGroups = (user: SettingsTabsProps["user"]): TabGroup[] => [
       {
         id: "payments.stripe",
         title: "Stripe",
-        content: (
-          <PaymentsStripe
-            hasUserFinishedStripeOnboarding={user.hasFinishedStripeOnboarding}
-          />
-        ),
+        content: <PaymentsStripe />,
       },
     ],
   },
 ];
 
-type SettingsTabsProps = {
-  user: User & {
-    profile: Profile;
-  };
-};
-
-export default function SettingsTabs({ user }: SettingsTabsProps) {
+export default function SettingsTabs() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const tabGroups = React.useMemo(() => getTabsGroups(user), [user]);
+  const tabGroups = React.useMemo(() => getTabsGroups(), []);
   const flatTabs = React.useMemo(
     () => tabGroups.flatMap((group) => group.tabs),
     [tabGroups],

@@ -1,3 +1,4 @@
+import { ContextUser } from "@/app/_contexts/AuthContext";
 import {
   Dialog,
   DialogContent,
@@ -7,12 +8,21 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { UploadButton } from "@/components/uploadthing";
+import { useQueryClient } from "@tanstack/react-query";
 import { Pencil } from "lucide-react";
 import React from "react";
 import { toast } from "sonner";
 
 export default function EditAvatarDialog() {
+  const queryClient = useQueryClient();
+
   const [open, setOpen] = React.useState(false);
+
+  const updateCache = (image: string) => {
+    queryClient.setQueryData<ContextUser>(["user", "me"], (old) =>
+      old ? { ...old, image } : old,
+    );
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -31,9 +41,16 @@ export default function EditAvatarDialog() {
         <UploadButton
           content={{ button: "Upload Avatar" }}
           endpoint="userProfileAvatar"
-          onClientUploadComplete={() => {
-            toast.success("Avatar updated!");
+          onClientUploadComplete={(response) => {
+            const image = response[0];
+            if (!image) {
+              return;
+            }
+
             setOpen(false);
+
+            toast.success("Avatar updated!");
+            updateCache(image.url);
           }}
           onUploadError={(error: Error) => {
             toast.error("Something went wrong 😔");

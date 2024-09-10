@@ -5,7 +5,7 @@ import { db } from "@/server/db";
 import { stripe } from "@/server/stripe";
 import { headers } from "next/headers";
 
-export async function stripeAccountLinkAction() {
+export async function createStripeAccountLink() {
   const origin = headers().get("origin");
   const refreshUrl = `${origin}/dashboard/payments/refresh`;
   const returnUrl = `${origin}/dashboard/settings?tab=payments.stripe`;

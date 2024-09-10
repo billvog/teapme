@@ -5,7 +5,7 @@ import { auth } from "@/server/auth";
 import { db } from "@/server/db";
 import { z } from "zod";
 
-export async function editProfileAction(values: z.infer<typeof profileSchema>) {
+export async function profileEdit(values: z.infer<typeof profileSchema>) {
   const validated = profileSchema.safeParse(values);
 
   if (validated.error) {

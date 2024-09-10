@@ -1,6 +1,7 @@
 "use client";
 
-import { editProfileAction } from "@/actions/profile/edit-profile";
+import { profileEdit } from "@/actions/profile/edit-profile";
+import { ContextUser, useAuth } from "@/app/_contexts/AuthContext";
 import EditAvatarDialog from "@/app/dashboard/settings/_components/dialogs/edit-avatar";
 import Tab from "@/app/dashboard/settings/_components/tab";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
@@ -18,43 +19,60 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { profileSchema } from "@/schemas/profile.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Profile, User } from "@prisma/client";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ThumbsUp } from "lucide-react";
 import Image from "next/image";
-import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-type ProfileGeneralProps = {
-  initialValues: z.infer<typeof profileSchema>;
-  user: User & {
-    profile: Profile;
-  };
-};
-
-export default function ProfileGeneral({
-  initialValues,
-  user,
-}: ProfileGeneralProps) {
-  const [isLoading, startTransition] = useTransition();
+export default function ProfileGeneral() {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
-    defaultValues: initialValues,
+    defaultValues: {
+      name: user?.name ?? "",
+      bio: user?.profile?.bio ?? "",
+    },
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: profileEdit,
   });
 
   async function onSubmit(values: z.infer<typeof profileSchema>) {
-    startTransition(async () => {
-      const response = await editProfileAction(values);
-      if (response.ok) {
-        toast.success("Profile updated!", { icon: <ThumbsUp size={20} /> });
-        return;
-      }
+    mutate(values, {
+      onSuccess(data) {
+        if (!data.ok) {
+          toast.error("Something went wrong 😔");
+          return;
+        }
 
-      toast.error("Something went wrong 😔");
+        toast.success("Profile updated!", { icon: <ThumbsUp size={20} /> });
+
+        // Update cache
+        queryClient.setQueryData<ContextUser>(["user", "me"], (old) =>
+          old
+            ? {
+                ...old,
+                name: values.name,
+                profile: {
+                  ...old.profile!,
+                  bio: values.bio,
+                },
+              }
+            : null,
+        );
+      },
+      onError() {
+        toast.error("Something went wrong 😔");
+      },
     });
   }
+
+  if (!user) return null;
 
   return (
     <Tab>
@@ -68,7 +86,7 @@ export default function ProfileGeneral({
         <div className="group relative">
           <Image
             alt="banner"
-            src={user.profile.banner ?? ""}
+            src={user.profile?.banner ?? ""}
             width={0}
             height={0}
             sizes="100vw"
@@ -76,7 +94,7 @@ export default function ProfileGeneral({
           />
           <div className="absolute -bottom-4 left-5 flex flex-row items-center gap-4">
             <Avatar className="h-20 w-20 cursor-pointer self-center">
-              <AvatarImage src={user.image!} />
+              <AvatarImage src={user.image ?? ""} />
               <EditAvatarDialog />
             </Avatar>
             <div className="cursor-pointer rounded-xl bg-black bg-opacity-50 px-3 py-1 text-sm text-white opacity-0 group-hover:opacity-100">
@@ -122,7 +140,7 @@ export default function ProfileGeneral({
                 </FormItem>
               )}
             />
-            <Button type="submit" loading={isLoading}>
+            <Button type="submit" loading={isPending}>
               Seems fine! 👌
             </Button>
           </form>
