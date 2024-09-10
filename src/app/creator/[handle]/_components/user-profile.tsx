@@ -2,6 +2,7 @@
 
 import { getUserProfile } from "@/actions/profile/get-profile";
 import Donate from "@/app/creator/[handle]/_components/donate";
+import Footer from "@/app/creator/[handle]/_components/footer";
 import CreatorNotFound from "@/app/creator/[handle]/_components/not-found";
 import TopTeapers from "@/app/creator/[handle]/_components/top-teapers";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -66,6 +67,7 @@ export default function UserProfile({ userHandle }: UserProfileProps) {
           <Donate userId={userData.id} />
         </Card>
       </div>
+      <Footer />
     </div>
   );
 }

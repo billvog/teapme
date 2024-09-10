@@ -14,7 +14,7 @@ export default function Navbar() {
       <div className="flex w-full max-w-5xl items-center justify-between">
         <div>
           <Link href="/" className="text-4xl font-extrabold">
-            Teapme
+            🍃 Teapme
           </Link>
         </div>
         <div className="flex items-center gap-10">

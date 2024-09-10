@@ -2,7 +2,7 @@ import React from "react";
 
 function Section({ children }: { children: React.ReactNode }) {
   return (
-    <section className="flex flex-col items-center space-y-14">
+    <section className="flex h-full flex-col items-center justify-center space-y-14">
       {children}
     </section>
   );

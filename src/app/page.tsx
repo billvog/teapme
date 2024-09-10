@@ -4,7 +4,8 @@ import Link from "next/link";
 
 export default function Page() {
   return (
-    <main className="space-y-60 py-10">
+    <main className="h-full space-y-60">
+      {/* Intro */}
       <Section>
         <Section.Title>
           Tipping for folks who ain't fancy coffee.{" "}
@@ -24,7 +25,7 @@ export default function Page() {
             variant="secondary"
             size="xl"
           >
-            Claim Your Handle Now 🤩
+            Claim Your Handle Now
           </Button>
         </Link>
       </Section>
