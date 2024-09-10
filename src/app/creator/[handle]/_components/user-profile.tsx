@@ -2,6 +2,7 @@
 
 import { getUserProfile } from "@/actions/profile/get-profile";
 import Donate from "@/app/creator/[handle]/_components/donate";
+import CreatorNotFound from "@/app/creator/[handle]/_components/not-found";
 import TopTeapers from "@/app/creator/[handle]/_components/top-teapers";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
@@ -19,18 +20,18 @@ export default function UserProfile({ userHandle }: UserProfileProps) {
     queryFn: () => getUserProfile(userHandle),
   });
 
-  if (!userData) return null;
+  if (!userData) return <CreatorNotFound handle={userHandle} />;
 
   return (
     <div className="flex flex-col items-center">
-      <div className="group w-[calc(100%+50px)]">
+      <div className="group w-[calc(100%+30px)]">
         <Image
           alt="banner"
           src={userData.profile?.banner ?? ""}
           width={0}
           height={0}
           sizes="100vw"
-          className="h-[250px] w-full rounded-xl object-cover"
+          className="h-[250px] w-full rounded-t-3xl object-cover"
         />
       </div>
       <div className="flex w-full -translate-y-10 justify-center space-x-4">
