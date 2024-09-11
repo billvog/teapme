@@ -9,7 +9,7 @@ export default function Footer() {
       </span>
       <span>
         Created with ❤️ by{" "}
-        <a target="_blank" className="link" href="https://teapme.com/@bill">
+        <a target="_blank" className="link" href="https://teapme.com/@ceo">
           Vasilis
         </a>
       </span>
