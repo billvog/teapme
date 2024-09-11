@@ -64,7 +64,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {loading && <Loader className="absolute h-4 w-4 animate-spin" />}
         <div
-          className={cn("flex flex-row", loading ? "opacity-0" : "opacity-100")}
+          className={cn(
+            "flex flex-row items-center gap-1.5",
+            loading ? "opacity-0" : "opacity-100",
+          )}
         >
           <Slottable>{children}</Slottable>
         </div>

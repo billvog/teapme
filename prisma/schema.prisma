@@ -51,6 +51,17 @@ model Profile {
 
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  socialMedia SocialLink[]
+}
+
+model SocialLink {
+  id    Int    @id @default(autoincrement())
+  title String
+  url   String
+
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId String
 }
 
 model Teap {

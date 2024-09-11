@@ -3,6 +3,7 @@
 import { profileEdit } from "@/actions/profile/edit-profile";
 import { ContextUser, useAuth } from "@/app/_contexts/AuthContext";
 import EditAvatarDialog from "@/app/dashboard/settings/_components/dialogs/edit-avatar";
+import SocialLinks from "@/app/dashboard/settings/_components/social-links";
 import Tab from "@/app/dashboard/settings/_components/tab";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -83,6 +84,7 @@ export default function ProfileGeneral() {
         </Tab.Subtitle>
       </Tab.Header>
       <Tab.Content className="flex flex-col gap-10">
+        {/* Avatar & Banner */}
         <div className="relative">
           <div className="group">
             <Image
@@ -107,6 +109,7 @@ export default function ProfileGeneral() {
             </Avatar>
           </div>
         </div>
+        {/* Name & Bio */}
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -150,6 +153,17 @@ export default function ProfileGeneral() {
             </Button>
           </form>
         </Form>
+        {/* Social Links */}
+        <div className="space-y-8">
+          <div>
+            <h2 className="text-2xl font-bold">Social Links</h2>
+            <p className="text-sm text-gray-600">
+              You can add links to your social media profiles here. They will be
+              displayed on your profile.
+            </p>
+          </div>
+          <SocialLinks userProfileId={user.profile!.id} />
+        </div>
       </Tab.Content>
     </Tab>
   );
