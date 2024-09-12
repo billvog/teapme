@@ -18,8 +18,8 @@ Plus that I wanted to try Next's and React's new Server Components and App Route
 
 Created with [T3](https://create.t3.gg/).
 
-- **Framework:** Next.js (App Router)
+- **Framework:** Next.js (w/ App Router)
 - **Language:** TypeScript
 - **Database:** Postgres (Neon)
-- **Tooling:** shadcn, Tailwind, NextAuth, Prisma
-- **Infrastructure:** Vercel
+- **Tooling:** shadcn, Tailwind, NextAuth, Prisma, React Query
+- **Infrastructure:** Vercel, Stripe
