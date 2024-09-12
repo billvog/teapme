@@ -4,15 +4,16 @@ import { Button } from "@/components/ui/button";
 import { getSocialPlatform } from "@/lib/social-links";
 import { SocialLink } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link2, Trash2 } from "lucide-react";
+import { Edit2, Link2, Trash2 } from "lucide-react";
 import React from "react";
 import { toast } from "sonner";
 
 type SocialLinkProps = {
   link: SocialLink;
+  onEdit: () => void;
 };
 
-export default function Link({ link }: SocialLinkProps) {
+export default function Link({ link, onEdit }: SocialLinkProps) {
   const queryClient = useQueryClient();
 
   const platform = React.useMemo(() => {
@@ -58,7 +59,10 @@ export default function Link({ link }: SocialLinkProps) {
           {link.url}
         </a>
       </div>
-      <div className="opacity-0 group-hover:opacity-100">
+      <div className="flex flex-row items-center gap-2 opacity-0 group-hover:opacity-100">
+        <Button size="icon" variant="outline" onClick={onEdit}>
+          <Edit2 size={16} />
+        </Button>
         <Button
           size="icon"
           variant="outline"

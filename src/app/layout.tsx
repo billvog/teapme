@@ -1,4 +1,5 @@
 import Navbar from "@/app/_components/navbar";
+import Footer from "@/app/_components/footer";
 import Providers from "@/app/providers";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
@@ -35,9 +36,8 @@ export default function RootLayout({
         <Providers>
           <>
             <Navbar />
-            <div className="h-full w-full max-w-5xl self-center py-10">
-              {children}
-            </div>
+            <div className="w-full max-w-5xl self-center py-10">{children}</div>
+            <Footer />
           </>
         </Providers>
       </body>

@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <div className="flex w-screen flex-col items-center gap-2 bg-gray-100 p-10">
+    <div className="flex w-screen flex-col items-center gap-2 bg-gray-100 py-14">
       <span>
         <span className="font-extrabold">🍃 Teapme</span>, tipping for folks who
         ain't fancy coffee.

@@ -162,7 +162,7 @@ export default function ProfileGeneral() {
               displayed on your profile.
             </p>
           </div>
-          <SocialLinks userProfileId={user.profile!.id} />
+          {user.profile && <SocialLinks userProfileId={user.profile.id} />}
         </div>
       </Tab.Content>
     </Tab>
