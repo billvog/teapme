@@ -2,7 +2,7 @@
 
 import { profileGetSocialLinks } from "@/actions/profile/get-social-links";
 import SocialLinkForm from "@/app/dashboard/settings/_components/social-links/form";
-import Link from "@/app/dashboard/settings/_components/social-links/link";
+import Link from "@/components/ui/social-link";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 
@@ -57,6 +57,7 @@ export default function SocialLinks({
                 key={link.id}
                 link={link}
                 onEdit={() => onLinkEdit(link.id)}
+                showActions
               />
             ),
           )}

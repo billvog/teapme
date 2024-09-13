@@ -1,4 +1,4 @@
-import TeapCard from "@/components/teap-card";
+import TeapCard from "@/components/ui/teap-card";
 import { Teap } from "@prisma/client";
 
 type TopTeapersProps = {

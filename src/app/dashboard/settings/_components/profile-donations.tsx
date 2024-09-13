@@ -3,7 +3,7 @@
 import { profileEditThanksMessage } from "@/actions/profile/edit-thanks-message";
 import { ContextUser, useAuth } from "@/app/_contexts/AuthContext";
 import Tab from "@/app/dashboard/settings/_components/tab";
-import DonateThanksMessage from "@/components/donate-thanks-message";
+import DonateThanksMessage from "@/components/ui/donate-thanks-message";
 import { Button } from "@/components/ui/button";
 import {
   Form,

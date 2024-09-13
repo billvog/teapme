@@ -1,6 +1,5 @@
 "use client";
 
-import { useAuth } from "@/app/_contexts/AuthContext";
 import PaymentsStripe from "@/app/dashboard/settings/_components/payments-stripe";
 import ProfileDonations from "@/app/dashboard/settings/_components/profile-donations";
 import ProfileGeneral from "@/app/dashboard/settings/_components/profile-general";

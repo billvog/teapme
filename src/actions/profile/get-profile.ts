@@ -8,7 +8,11 @@ export async function getUserProfile(handle: string) {
       handle,
     },
     include: {
-      profile: true,
+      profile: {
+        include: {
+          socialLinks: true,
+        },
+      },
       teaps: {
         where: {
           isCompleted: true,

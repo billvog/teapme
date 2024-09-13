@@ -6,6 +6,7 @@ import CreatorNotFound from "@/app/creator/[handle]/_components/not-found";
 import TopTeapers from "@/app/creator/[handle]/_components/top-teapers";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
+import Link from "@/components/ui/social-link";
 import { getUserAvatarFallback } from "@/lib/user-profile";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
@@ -53,6 +54,11 @@ export default function UserProfile({ userHandle }: UserProfileProps) {
             </div>
             <div>
               <span className="whitespace-pre">{userData.profile?.bio}</span>
+            </div>
+            <div className="flex flex-col gap-4">
+              {userData.profile?.socialLinks.map((link) => (
+                <Link key={link.id} link={link} />
+              ))}
             </div>
           </Card>
           <Card className="flex-col items-start space-y-6 px-0 pb-0 pt-10">

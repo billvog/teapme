@@ -8,12 +8,13 @@ import { Edit2, Link2, Trash2 } from "lucide-react";
 import React from "react";
 import { toast } from "sonner";
 
-type SocialLinkProps = {
+type LinkProps = {
   link: SocialLink;
-  onEdit: () => void;
+  onEdit?: () => void;
+  showActions?: boolean;
 };
 
-export default function Link({ link, onEdit }: SocialLinkProps) {
+export default function Link({ link, showActions = false, onEdit }: LinkProps) {
   const queryClient = useQueryClient();
 
   const platform = React.useMemo(() => {
@@ -52,26 +53,30 @@ export default function Link({ link, onEdit }: SocialLinkProps) {
 
   return (
     <div className="group flex flex-row items-center gap-4 text-sm">
-      {PlatformIcon ? <PlatformIcon size={20} /> : <Link2 size={16} />}
-      <div className="items-left flex flex-col">
-        <span>{link.title}</span>
+      <div className="flex flex-col">
+        <div className="flex flex-row items-center gap-2">
+          {PlatformIcon ? <PlatformIcon size={14} /> : <Link2 size={16} />}
+          <span>{link.title}</span>
+        </div>
         <a href={link.url} target="_blank" className="link">
           {link.url}
         </a>
       </div>
-      <div className="flex flex-row items-center gap-2 opacity-0 group-hover:opacity-100">
-        <Button size="icon" variant="outline" onClick={onEdit}>
-          <Edit2 size={16} />
-        </Button>
-        <Button
-          size="icon"
-          variant="outline"
-          onClick={onDeleteClick}
-          loading={deleteMutation.isPending}
-        >
-          <Trash2 size={16} color="red" />
-        </Button>
-      </div>
+      {showActions && (
+        <div className="flex flex-row items-center gap-2 opacity-0 group-hover:opacity-100">
+          <Button size="icon" variant="outline" onClick={onEdit}>
+            <Edit2 size={16} />
+          </Button>
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={onDeleteClick}
+            loading={deleteMutation.isPending}
+          >
+            <Trash2 size={16} color="red" />
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
