@@ -1,10 +1,8 @@
 "use client";
 
 import { useAuth } from "@/app/_contexts/AuthContext";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getUserAvatarFallback } from "@/lib/user-profile";
+import { UserDropdown } from "@/components/ui/user/dropdown";
 import Link from "next/link";
-import React from "react";
 
 export default function Navbar() {
   const { user, isLoading } = useAuth();
@@ -21,12 +19,7 @@ export default function Navbar() {
           {isLoading ? null : user ? (
             <>
               <Link href={`/@${user.handle}`}>Your page</Link>
-              <Link href="/dashboard/settings">
-                <Avatar>
-                  <AvatarImage src={user.image ?? undefined} />
-                  <AvatarFallback>{getUserAvatarFallback(user)}</AvatarFallback>
-                </Avatar>
-              </Link>
+              <UserDropdown />
             </>
           ) : (
             <Link href="/auth/login">Login</Link>

@@ -1,9 +1,9 @@
-import * as React from "react";
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
+import { Loader2 } from "lucide-react";
+import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { Loader } from "lucide-react";
 
 const buttonVariants = cva(
   "relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors transition-transform hover:scale-95 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
@@ -62,7 +62,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(buttonVariants({ variant, size, className }))}
         {...props}
       >
-        {loading && <Loader className="absolute h-4 w-4 animate-spin" />}
+        {loading && <Loader2 className="absolute h-4 w-4 animate-spin" />}
         <div
           className={cn(
             "flex flex-row items-center gap-1.5",
