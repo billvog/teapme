@@ -13,10 +13,12 @@ const Options: DropdownOptionGroup[] = [
     label: "Account",
     options: [
       {
+        icon: "👤",
         label: "Profile",
         href: "/dashboard/settings",
       },
       {
+        icon: "☕️",
         label: "Donations",
         href: "/dashboard/settings/donations",
       },
@@ -24,6 +26,7 @@ const Options: DropdownOptionGroup[] = [
         type: "seperator",
       },
       {
+        icon: "💸",
         label: "Payments",
         href: "/dashboard/settings/payments",
       },

@@ -8,10 +8,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { IconType } from "react-icons/lib";
 
 export type DropdownOption =
   | {
       type?: "item";
+      icon?: string | IconType;
       label: string;
       href?: string;
       onClick?: () => void;
@@ -56,7 +58,16 @@ export default function DropdownBuilder({
                     }
                   }}
                 >
-                  {option.label}
+                  {option.icon && (
+                    <span className="mr-3">
+                      {typeof option.icon === "string" ? (
+                        <span>{option.icon}</span>
+                      ) : (
+                        <option.icon size={16} />
+                      )}
+                    </span>
+                  )}
+                  <span>{option.label}</span>
                 </DropdownMenuItem>
               ),
             )}
