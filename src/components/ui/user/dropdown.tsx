@@ -1,21 +1,37 @@
 "use client";
 
 import { useAuth } from "@/app/_contexts/AuthContext";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import DropdownBuilder, {
+  DropdownOptionGroup,
+} from "@/components/ui/dropdown-builder";
 import { UserAvatar } from "@/components/ui/user/avatar";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-type UserDropdownProps = {};
+const Options: DropdownOptionGroup[] = [
+  {
+    label: "Account",
+    options: [
+      {
+        label: "Profile",
+        href: "/dashboard/settings",
+      },
+      {
+        label: "Donations",
+        href: "/dashboard/settings/donations",
+      },
+      {
+        type: "seperator",
+      },
+      {
+        label: "Payments",
+        href: "/dashboard/settings/payments",
+      },
+    ],
+  },
+];
 
-export const UserDropdown = ({}: UserDropdownProps) => {
+export const UserDropdown = () => {
   const { user } = useAuth();
   const router = useRouter();
 
@@ -24,20 +40,8 @@ export const UserDropdown = ({}: UserDropdownProps) => {
   }
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        <UserAvatar user={user} />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => router.push("/dashboard/settings")}>
-          General
-        </DropdownMenuItem>
-        <DropdownMenuItem>Billing</DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>Logout</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <DropdownBuilder options={Options}>
+      <UserAvatar user={user} />
+    </DropdownBuilder>
   );
 };
