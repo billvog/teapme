@@ -13,7 +13,7 @@ import { Pencil } from "lucide-react";
 import React from "react";
 import { toast } from "sonner";
 
-export default function EditAvatarDialog() {
+export default function EditAvatarModal() {
   const queryClient = useQueryClient();
 
   const [open, setOpen] = React.useState(false);

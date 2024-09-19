@@ -23,7 +23,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-export default function ProfileDonations() {
+export default function Page() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 

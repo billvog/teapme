@@ -8,7 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { toast } from "sonner";
 
-export default function PaymentsStripe() {
+export default function Page() {
   const { user } = useAuth();
 
   const [canSubmit, setCanSubmit] = React.useState(true);
