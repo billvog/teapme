@@ -1,6 +1,7 @@
 "use client";
 
 import profileAddSocialLink from "@/actions/profile/add-social-link";
+import { getUserProfile } from "@/actions/profile/get-profile";
 import { profileGetSocialLinks } from "@/actions/profile/get-social-links";
 import { useAuth } from "@/app/_contexts/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -72,6 +73,7 @@ export default function SocialLinkForm({ link, onClose }: SocialLinkFormProps) {
           onClose?.();
 
           // Update cache
+
           queryClient.setQueryData<
             Awaited<ReturnType<typeof profileGetSocialLinks>>
           >(["profile", user!.profile!.id, "social-links"], (old) => {
@@ -83,6 +85,22 @@ export default function SocialLinkForm({ link, onClose }: SocialLinkFormProps) {
 
             return [...old, data.link];
           });
+
+          queryClient.setQueryData<Awaited<ReturnType<typeof getUserProfile>>>(
+            ["user", user?.handle, "profile"],
+            (old) =>
+              old
+                ? {
+                    ...old,
+                    profile: old.profile
+                      ? {
+                          ...old.profile,
+                          socialLinks: [...old.profile.socialLinks, data.link],
+                        }
+                      : old.profile,
+                  }
+                : old,
+          );
         },
         onError() {
           toast.error("Something went wrong 😔");

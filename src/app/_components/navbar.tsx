@@ -18,7 +18,12 @@ export default function Navbar() {
         <div className="flex items-center gap-10">
           {isLoading ? null : user ? (
             <>
-              <Link href={`/@${user.handle}`}>Your page</Link>
+              <Link
+                href={`/@${user.handle}`}
+                className="decoration-lime-600 decoration-wavy hover:underline"
+              >
+                Your page
+              </Link>
               <UserDropdown />
             </>
           ) : (

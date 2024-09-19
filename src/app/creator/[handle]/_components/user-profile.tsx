@@ -17,7 +17,7 @@ type UserProfileProps = {
 
 export default function UserProfile({ userHandle }: UserProfileProps) {
   const { data: userData } = useQuery({
-    queryKey: ["user", userHandle],
+    queryKey: ["user", userHandle, "profile"],
     queryFn: () => getUserProfile(userHandle),
   });
 
@@ -32,7 +32,7 @@ export default function UserProfile({ userHandle }: UserProfileProps) {
           width={0}
           height={0}
           sizes="100vw"
-          className="h-[250px] w-full rounded-t-3xl object-cover"
+          className="h-[250px] w-full rounded-2xl object-cover"
         />
       </div>
       <div className="flex w-full -translate-y-10 justify-center space-x-4">

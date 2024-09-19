@@ -1,5 +1,7 @@
 import { profileDeleteSocialLink } from "@/actions/profile/delete-social-link";
+import { getUserProfile } from "@/actions/profile/get-profile";
 import { profileGetSocialLinks } from "@/actions/profile/get-social-links";
+import { useAuth } from "@/app/_contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { getSocialPlatform } from "@/lib/social-links";
 import { SocialLink } from "@prisma/client";
@@ -16,6 +18,7 @@ type LinkProps = {
 
 export default function Link({ link, showActions = false, onEdit }: LinkProps) {
   const queryClient = useQueryClient();
+  const { user } = useAuth();
 
   const platform = React.useMemo(() => {
     if (!link.url) return null;
@@ -39,10 +42,29 @@ export default function Link({ link, showActions = false, onEdit }: LinkProps) {
         toast.success("Link deleted successfully");
 
         // Update cache
+
         queryClient.setQueryData<
           Awaited<ReturnType<typeof profileGetSocialLinks>>
         >(["profile", link.profileId, "social-links"], (old) =>
           old ? old.filter((l) => l.id !== link.id) : old,
+        );
+
+        queryClient.setQueryData<Awaited<ReturnType<typeof getUserProfile>>>(
+          ["user", user?.handle, "profile"],
+          (old) =>
+            old
+              ? {
+                  ...old,
+                  profile: old.profile
+                    ? {
+                        ...old.profile,
+                        socialLinks: old.profile.socialLinks.filter(
+                          (l) => l.id !== link.id,
+                        ),
+                      }
+                    : old.profile,
+                }
+              : old,
         );
       },
       onError() {

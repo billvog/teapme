@@ -11,7 +11,7 @@ import {
 export default async function Page({ params }: { params: { handle: string } }) {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
-    queryKey: ["user", params.handle],
+    queryKey: ["user", params.handle, "profile"],
     queryFn: () => getUserProfile(params.handle),
   });
 
