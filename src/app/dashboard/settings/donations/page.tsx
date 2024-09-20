@@ -104,9 +104,9 @@ export default function Page() {
             />
             <div>
               <h2 className="mb-2 text-xl">Preview</h2>
-              <div className="rounded border">
+              <div className="flex justify-center rounded border">
                 <DonateThanksMessage
-                  userHandle={user.handle ?? ""}
+                  handle={user.handle ?? ""}
                   message={form.watch("thankYouMessage")}
                 />
               </div>

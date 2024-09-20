@@ -1,11 +1,21 @@
-import Link from "next/link";
-import React from "react";
+import { getUserProfile } from "@/actions/profile/get-profile";
+import Thanks from "@/app/creator/[handle]/teaped/_components/Thanks";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 
 export default async function Page({ params }: { params: { handle: string } }) {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ["user", params.handle, "profile"],
+    queryFn: () => getUserProfile(params.handle),
+  });
+
   return (
-    <main className="flex flex-col items-center gap-4">
-      <h1 className="text-2xl font-bold">Thanks for your Teap! ❤️</h1>
-      <Link href={`/@${params.handle}`}>Return to my page</Link>
-    </main>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <Thanks userHandle={params.handle} />
+    </HydrationBoundary>
   );
 }
