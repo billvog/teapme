@@ -5,9 +5,7 @@ import { auth } from "@/server/auth";
 import { db } from "@/server/db";
 import { z } from "zod";
 
-export async function onboardUserAction(
-  values: z.infer<typeof onboardUserSchema>,
-) {
+export async function userOnboard(values: z.infer<typeof onboardUserSchema>) {
   const validated = onboardUserSchema.safeParse(values);
 
   if (validated.error) {

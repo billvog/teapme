@@ -1,6 +1,6 @@
 "use client";
 
-import { onboardUserAction } from "@/actions/onboard-user";
+import { userOnboard } from "@/actions/user/onboard";
 import { ContextUser } from "@/app/_contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import {
@@ -41,7 +41,7 @@ export default function OnboardForm() {
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: onboardUserAction,
+    mutationFn: userOnboard,
   });
 
   async function onSubmit(values: z.infer<typeof onboardUserSchema>) {
