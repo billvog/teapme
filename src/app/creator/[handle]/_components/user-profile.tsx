@@ -4,10 +4,9 @@ import { getUserProfile } from "@/actions/profile/get-profile";
 import Donate from "@/app/creator/[handle]/_components/donate";
 import CreatorNotFound from "@/app/creator/[handle]/_components/not-found";
 import TopTeapers from "@/app/creator/[handle]/_components/top-teapers";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import Link from "@/components/ui/social-link";
-import { getUserAvatarFallback } from "@/lib/user-profile";
+import { UserAvatar } from "@/components/ui/user/avatar";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 
@@ -24,8 +23,8 @@ export default function UserProfile({ userHandle }: UserProfileProps) {
   if (!userData) return <CreatorNotFound handle={userHandle} />;
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="group w-[calc(100%+30px)]">
+    <div className="flex flex-col items-center gap-4">
+      <div className="group w-full">
         <Image
           alt="banner"
           src={userData.profile?.banner ?? ""}
@@ -35,16 +34,11 @@ export default function UserProfile({ userHandle }: UserProfileProps) {
           className="h-[250px] w-full rounded-2xl object-cover"
         />
       </div>
-      <div className="flex w-full -translate-y-10 justify-center space-x-4">
+      <div className="flex w-full justify-center space-x-4">
         <div className="flex w-full flex-1 flex-col space-y-4">
           <Card className="flex-col items-start space-y-6 p-10">
             <div className="flex flex-row items-center space-x-4">
-              <Avatar className="h-16 w-16">
-                <AvatarImage src={userData.image ?? ""} />
-                <AvatarFallback>
-                  {getUserAvatarFallback(userData)}
-                </AvatarFallback>
-              </Avatar>
+              <UserAvatar user={userData} size="lg" />
               <div className="flex flex-col">
                 <span className="text-3xl font-extrabold">{userData.name}</span>
                 <span className="text-lg font-bold text-lime-600">
