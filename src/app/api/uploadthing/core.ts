@@ -1,3 +1,4 @@
+import profileUpdateAvatar from "@/actions/profile/update-avatar";
 import { auth } from "@/server/auth";
 import { db } from "@/server/db";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
@@ -15,19 +16,9 @@ export const ourFileRouter = {
       if (!session) throw new UploadThingError("Unauthorized");
       return { userId: session.user.id };
     })
-    .onUploadComplete(async ({ metadata, file }) => {
-      // TODO -- delete old image
-      const user = await db.user.update({
-        data: {
-          image: file.url,
-        },
-        where: {
-          id: metadata.userId,
-        },
-      });
-
-      return { image: user.image };
-    }),
+    .onUploadComplete(async ({ metadata, file }) =>
+      profileUpdateAvatar(file, metadata),
+    ),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

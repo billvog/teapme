@@ -13,7 +13,11 @@ import { Pencil } from "lucide-react";
 import React from "react";
 import { toast } from "sonner";
 
-export default function EditAvatarModal() {
+type EditAvatarModalProps = {
+  children: React.ReactNode;
+};
+
+export default function EditAvatarModal({ children }: EditAvatarModalProps) {
   const queryClient = useQueryClient();
 
   const [open, setOpen] = React.useState(false);
@@ -27,8 +31,11 @@ export default function EditAvatarModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <div className="absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center bg-black bg-opacity-30 opacity-0 group-hover:opacity-100">
-          <Pencil color="white" />
+        <div className="relative cursor-pointer overflow-hidden rounded-full">
+          {children}
+          <div className="absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center bg-black bg-opacity-30 opacity-0 group-hover:opacity-100">
+            <Pencil color="white" />
+          </div>
         </div>
       </DialogTrigger>
       <DialogContent>

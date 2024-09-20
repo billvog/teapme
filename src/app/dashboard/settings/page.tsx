@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { UserAvatar } from "@/components/ui/user/avatar";
 import EditAvatarModal from "@/components/ui/user/edit-avatar-modal";
 import { profileSchema } from "@/schemas/profile.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -103,10 +104,9 @@ export default function Page() {
             </div>
           </div>
           <div className="group absolute -bottom-4 left-5">
-            <Avatar className="h-20 w-20 cursor-pointer">
-              <AvatarImage src={user.image ?? ""} />
-              <EditAvatarModal />
-            </Avatar>
+            <EditAvatarModal>
+              <UserAvatar user={user} />
+            </EditAvatarModal>
           </div>
         </div>
         {/* Name & Bio */}
