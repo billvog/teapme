@@ -22,4 +22,4 @@ Created with [T3](https://create.t3.gg/).
 - **Language:** TypeScript
 - **Database:** Postgres (Neon)
 - **Tooling:** shadcn, Tailwind, NextAuth, Prisma, React Query
-- **Infrastructure:** Vercel, Stripe
+- **Infrastructure:** Vercel, Stripe, PostHog
