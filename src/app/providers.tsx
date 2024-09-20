@@ -1,11 +1,13 @@
 "use client";
 
+import { PHProvider } from "@/app/_analytics/PostHogProvider";
 import { AuthProvider } from "@/app/_contexts/AuthContext";
 import {
   isServer,
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
+import dynamic from "next/dynamic";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -28,12 +30,21 @@ function getQueryClient() {
   }
 }
 
+const PostHogPageView = dynamic(() => import("./_analytics/PostHogPageView"), {
+  ssr: false,
+});
+
 export default function Providers({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>{children}</AuthProvider>
+      <AuthProvider>
+        <PHProvider>
+          <PostHogPageView />
+          {children}
+        </PHProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

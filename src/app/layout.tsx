@@ -1,5 +1,5 @@
-import Navbar from "@/app/_components/navbar";
 import Footer from "@/app/_components/footer";
+import Navbar from "@/app/_components/navbar";
 import Providers from "@/app/providers";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
