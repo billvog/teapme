@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { UserAvatar } from "@/components/ui/user/avatar";
 import EditAvatarModal from "@/components/ui/user/edit-avatar-modal";
+import EditBannerModal from "@/components/ui/user/edit-banner-modal";
 import { profileSchema } from "@/schemas/profile.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -87,26 +88,9 @@ export default function Page() {
       <Tab.Content className="flex flex-col gap-10">
         {/* Avatar & Banner */}
         <div className="relative">
-          <div className="group">
-            <Image
-              alt="banner"
-              src={user.profile?.banner ?? ""}
-              width={0}
-              height={0}
-              sizes="100vw"
-              className="h-[200px] w-full object-cover"
-            />
-            <div className="absolute bottom-0 right-0 top-0 flex w-full items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100">
-              <div className="flex cursor-pointer flex-row items-center gap-2 px-3 py-1">
-                <Pencil color="white" size={20} />
-                <span className="text-base text-white">Edit Banner</span>
-              </div>
-            </div>
-          </div>
-          <div className="group absolute -bottom-4 left-5">
-            <EditAvatarModal>
-              <UserAvatar user={user} size="lg" />
-            </EditAvatarModal>
+          <EditBannerModal />
+          <div className="absolute -bottom-4 left-5">
+            <EditAvatarModal />
           </div>
         </div>
         {/* Name & Bio */}

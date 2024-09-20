@@ -1,70 +1,42 @@
-import { ContextUser } from "@/app/_contexts/AuthContext";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { UploadButton } from "@/components/uploadthing";
+import { getUserProfile } from "@/actions/profile/get-profile";
+import { ContextUser, useAuth } from "@/app/_contexts/AuthContext";
+import UploadImageModal from "@/components/ui/upload-image-modal";
+import { UserAvatar } from "@/components/ui/user/avatar";
 import { useQueryClient } from "@tanstack/react-query";
-import { Pencil } from "lucide-react";
-import React from "react";
 import { toast } from "sonner";
 
-type EditAvatarModalProps = {
-  children: React.ReactNode;
-};
-
-export default function EditAvatarModal({ children }: EditAvatarModalProps) {
+export default function EditAvatarModal() {
+  const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const [open, setOpen] = React.useState(false);
-
-  const updateCache = (image: string) => {
-    queryClient.setQueryData<ContextUser>(["user", "me"], (old) =>
-      old ? { ...old, image } : old,
-    );
-  };
+  if (!user) {
+    return null;
+  }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <div className="relative cursor-pointer overflow-hidden rounded-full">
-          {children}
-          <div className="absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center bg-black bg-opacity-30 opacity-0 group-hover:opacity-100">
-            <Pencil color="white" />
-          </div>
-        </div>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Change Avatar ✍️</DialogTitle>
-          <DialogDescription>
-            Upload a new avatar to change your profile picture.
-          </DialogDescription>
-        </DialogHeader>
-        <UploadButton
-          content={{ button: "Upload Avatar" }}
-          endpoint="userProfileAvatar"
-          onClientUploadComplete={(response) => {
-            const image = response[0];
-            if (!image) {
-              return;
-            }
+    <div className="overflow-hidden rounded-full">
+      <UploadImageModal
+        title="Change Avatar ✍️"
+        desciption="Upload a new image to change your profile picture."
+        endpoint="userProfileAvatar"
+        buttonContent={{ button: "Upload Avatar" }}
+        onSuccess={(image) => {
+          toast.success("Avatar updated!");
 
-            setOpen(false);
+          // Update cache
 
-            toast.success("Avatar updated!");
-            updateCache(image.url);
-          }}
-          onUploadError={(error: Error) => {
-            toast.error("Something went wrong 😔");
-            console.error(error);
-          }}
-        />
-      </DialogContent>
-    </Dialog>
+          queryClient.setQueryData<ContextUser>(["user", "me"], (old) =>
+            old ? { ...old, image } : old,
+          );
+
+          queryClient.setQueryData<Awaited<ReturnType<typeof getUserProfile>>>(
+            ["user", user.handle, "profile"],
+            (old) => (old ? { ...old, image } : old),
+          );
+        }}
+      >
+        <UserAvatar user={user} size="lg" />
+      </UploadImageModal>
+    </div>
   );
 }
