@@ -105,7 +105,7 @@ export default function Page() {
           </div>
           <div className="group absolute -bottom-4 left-5">
             <EditAvatarModal>
-              <UserAvatar user={user} />
+              <UserAvatar user={user} size="lg" />
             </EditAvatarModal>
           </div>
         </div>
