@@ -68,4 +68,10 @@
   a.link {
     @apply font-bold text-blue-500 underline-offset-4 hover:underline;
   }
+
+  a.link-ext::after {
+    content: '↗';
+    font-family: system-ui, sans-serif;
+    @apply mx-1;
+  }
 }

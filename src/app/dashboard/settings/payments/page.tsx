@@ -38,7 +38,8 @@ export default function Page() {
       <Tab.Header>
         <Tab.Title>💰 Payments</Tab.Title>
         <Tab.Subtitle>
-          We handle payments through Stripe.
+          We handle payments through{" "}
+          <span className="font-extrabold">Stripe</span>.
           {!user.hasFinishedStripeOnboarding && (
             <>
               <br />
@@ -49,9 +50,23 @@ export default function Page() {
       </Tab.Header>
       <Tab.Content>
         {user.hasFinishedStripeOnboarding ? (
-          <div className="mx-auto w-fit rounded bg-green-100 px-10 py-6 text-center font-semibold text-green-700">
-            You've successfully set up payments with Stripe! 🎉 <br />
-            You can now start receiving payments ☕️
+          <div className="space-y-10">
+            <div className="mx-auto w-fit rounded bg-green-100 px-10 py-6 text-center font-semibold text-green-700">
+              You've successfully set up payments with Stripe! 🎉 <br />
+              You can now start receiving payments ☕️
+            </div>
+            <div className="text-center">
+              To manage your account, please visit{" "}
+              <a
+                href="https://dashboard.stripe.com"
+                target="_blank"
+                rel="noreferrer"
+                className="link link-ext"
+              >
+                Stripe Dashboard
+              </a>
+              .
+            </div>
           </div>
         ) : (
           <div className="flex w-full flex-col items-center gap-4">
