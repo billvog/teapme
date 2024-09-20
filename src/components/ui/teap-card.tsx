@@ -1,6 +1,6 @@
 "use client";
 
-import { TEA_PRICE } from "@/constants";
+import { TEAP_PRICE_IN_CENTS } from "@/constants";
 import { convertCentsToDollars } from "@/lib/currency";
 import { getEmojiForDonation } from "@/lib/donate";
 import { Teap } from "@prisma/client";
@@ -12,7 +12,7 @@ type TeapCardProps = {
 
 export default function TeapCard({ teap }: TeapCardProps) {
   const convertedPrice = convertCentsToDollars(teap.price);
-  const cupsAmount = teap.price / TEA_PRICE;
+  const cupsAmount = teap.price / TEAP_PRICE_IN_CENTS;
 
   const teapEmoji = React.useMemo(
     () => getEmojiForDonation(cupsAmount),

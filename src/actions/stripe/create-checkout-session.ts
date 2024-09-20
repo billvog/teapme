@@ -1,6 +1,6 @@
 "use server";
 
-import { TEA_PRICE } from "@/constants";
+import { TEAP_PRICE_IN_CENTS } from "@/constants";
 import { donateSchema } from "@/schemas/donate.schema";
 import { db } from "@/server/db";
 import { stripe } from "@/server/stripe";
@@ -39,7 +39,7 @@ export async function createStripeCheckoutSession(
     data: {
       message,
       senderName,
-      price: cupsAmount * TEA_PRICE,
+      price: cupsAmount * TEAP_PRICE_IN_CENTS,
       receiverId: userId,
     },
   });
@@ -53,7 +53,7 @@ export async function createStripeCheckoutSession(
             product_data: {
               name: "Cup of Tea",
             },
-            unit_amount: TEA_PRICE,
+            unit_amount: TEAP_PRICE_IN_CENTS,
           },
           quantity: cupsAmount,
         },

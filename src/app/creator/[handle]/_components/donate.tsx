@@ -5,22 +5,25 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { TEA_PRICE } from "@/constants";
 import { getEmojiForDonation } from "@/lib/donate";
 import { cn } from "@/lib/utils";
 import { donateSchema } from "@/schemas/donate.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { usePostHog } from "posthog-js/react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+
+const DonateOptions = [1, 2, 3];
 
 type DonateProps = {
   userId: string;
 };
 
 export default function Donate({ userId }: DonateProps) {
-  const options = [1, 2, 3];
-  const unitPrice = 3;
+  const posthog = usePostHog();
 
   const [isLoading, startTransition] = React.useTransition();
   const [canSubmit, setCanSubmit] = React.useState(true);
@@ -55,6 +58,18 @@ export default function Donate({ userId }: DonateProps) {
     }
   };
 
+  const onSuccess = (checkoutUrl: string) => {
+    // Track the donation
+    posthog.capture("donation", {
+      receiver: { userId },
+      cupsAmount: selectedCupsAmount,
+      price: selectedCupsAmount * TEA_PRICE,
+    });
+
+    // Redirect to the checkout page
+    window.location.href = checkoutUrl;
+  };
+
   const onSubmit = async (values: z.infer<typeof donateSchema>) => {
     startTransition(async () => {
       const { ok, checkoutUrl } = await createStripeCheckoutSession(
@@ -64,7 +79,7 @@ export default function Donate({ userId }: DonateProps) {
 
       if (ok && checkoutUrl) {
         setCanSubmit(false);
-        window.location.href = checkoutUrl;
+        onSuccess(checkoutUrl);
         return;
       }
 
@@ -85,7 +100,7 @@ export default function Donate({ userId }: DonateProps) {
           className="w-full space-y-4"
         >
           <div className="flex space-x-2">
-            {options.map((option) => (
+            {DonateOptions.map((option) => (
               <div
                 key={option}
                 className={cn(
@@ -104,7 +119,7 @@ export default function Donate({ userId }: DonateProps) {
               placeholder="Pick a number"
               className={cn(
                 "border-gray h-12 flex-1 rounded-xl border-4 text-center text-xl font-bold shadow-none",
-                options.includes(selectedCupsAmount ?? -1)
+                DonateOptions.includes(selectedCupsAmount ?? -1)
                   ? "border-gray-300"
                   : "border-blue-500",
               )}
@@ -154,7 +169,7 @@ export default function Donate({ userId }: DonateProps) {
                 className="w-full text-lg font-extrabold"
               >
                 <span className="mr-2">{teapEmoji}</span>
-                <span>Teap ${selectedCupsAmount * unitPrice}</span>
+                <span>Teap ${selectedCupsAmount * TEA_PRICE}</span>
               </Button>
             )}
           </div>
