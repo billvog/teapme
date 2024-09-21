@@ -65,8 +65,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="flex h-full items-start space-x-10">
-      <div className="flex h-full flex-col space-y-4 border-r-4">
+    <div className="flex h-full items-start gap-10 px-8 xl:px-0">
+      <div className="hidden h-full flex-col space-y-4 border-r-4 xl:flex">
         {TabGroups.map((group) => (
           <div key={group.id} className="mr-10 space-y-4">
             <div

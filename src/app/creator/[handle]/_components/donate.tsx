@@ -88,8 +88,8 @@ export default function Donate({ userId }: DonateProps) {
   };
 
   return (
-    <div className="flex flex-col space-y-4">
-      <span className="text-xl font-bold">
+    <div className="flex w-full flex-col space-y-4">
+      <span className="text-lg font-bold sm:text-xl">
         Get them a cup of tea.. <br />
         Teap 'em! <span className="ml-1">☕️</span>
       </span>
@@ -99,26 +99,26 @@ export default function Donate({ userId }: DonateProps) {
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full space-y-4"
         >
-          <div className="flex space-x-2">
+          <div className="flex gap-3 sm:gap-2">
             {DonateOptions.map((option) => (
               <div
                 key={option}
                 className={cn(
-                  "flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border-4",
+                  "flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border-4 sm:h-12 sm:w-12",
                   selectedCupsAmount === option
                     ? "border-blue-500"
                     : "border-gray-300",
                 )}
                 onClick={() => form.setValue("cupsAmount", option)}
               >
-                <span className="text-xl font-bold">{option}</span>
+                <span className="text-lg font-bold sm:text-xl">{option}</span>
               </div>
             ))}
             <Input
               type="number"
               placeholder="Pick a number"
               className={cn(
-                "border-gray h-12 flex-1 rounded-xl border-4 text-center text-xl font-bold shadow-none",
+                "border-gray h-12 max-w-36 flex-1 rounded-xl border-4 text-center text-xl font-bold shadow-none",
                 DonateOptions.includes(selectedCupsAmount ?? -1)
                   ? "border-gray-300"
                   : "border-blue-500",
@@ -157,7 +157,7 @@ export default function Donate({ userId }: DonateProps) {
           </div>
           <div>
             {selectedCupsAmount === 0 ? (
-              <span className="text-base">
+              <span className="text-sm sm:text-base">
                 Select a number of cups to Teap!
               </span>
             ) : (
@@ -166,7 +166,7 @@ export default function Donate({ userId }: DonateProps) {
                 type="submit"
                 loading={isLoading}
                 disabled={!canSubmit}
-                className="w-full text-lg font-extrabold"
+                className="w-full font-extrabold sm:w-max xl:w-full"
               >
                 <span className="mr-2">{teapEmoji}</span>
                 <span>Teap ${selectedCupsAmount * TEA_PRICE}</span>

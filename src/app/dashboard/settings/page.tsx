@@ -139,9 +139,9 @@ export default function Page() {
         </Form>
         {/* Social Links */}
         <div className="space-y-8">
-          <div>
-            <h2 className="text-2xl font-bold">Social Links</h2>
-            <p className="text-sm text-gray-600">
+          <div className="space-y-2">
+            <h2 className="text-xl font-bold sm:text-2xl">Social Links</h2>
+            <p className="text-xs text-gray-600 sm:text-sm">
               You can add links to your social media profiles here. They will be
               displayed on your profile.
             </p>

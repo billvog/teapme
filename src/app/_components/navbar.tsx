@@ -11,7 +11,7 @@ export default function Navbar() {
     <header className="flex w-full justify-center border-b-4 border-gray-200 bg-white p-8">
       <div className="flex w-full max-w-5xl items-center justify-between">
         <div>
-          <Link href="/" className="text-4xl font-extrabold">
+          <Link href="/" className="text-2xl font-extrabold sm:text-4xl">
             🍃 Teapme
           </Link>
         </div>

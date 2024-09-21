@@ -9,11 +9,11 @@ Tab.Header = ({ children }: { children: React.ReactNode }) => {
 };
 
 Tab.Title = ({ children }: { children: React.ReactNode }) => {
-  return <h1 className="text-3xl font-bold">{children}</h1>;
+  return <h1 className="text-2xl font-bold sm:text-3xl">{children}</h1>;
 };
 
 Tab.Subtitle = ({ children }: { children: React.ReactNode }) => {
-  return <p className="text-gray-500">{children}</p>;
+  return <p className="text-sm text-gray-500 sm:text-base">{children}</p>;
 };
 
 Tab.Content = ({

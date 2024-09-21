@@ -23,8 +23,8 @@ export default function UserProfile({ userHandle }: UserProfileProps) {
   if (!userData) return <CreatorNotFound handle={userHandle} />;
 
   return (
-    <div className="flex flex-col items-center gap-4">
-      <div className="group w-full">
+    <div className="flex flex-col items-center gap-4 px-4 xl:p-0">
+      <div className="w-full">
         <Image
           alt="banner"
           src={userData.profile?.banner ?? ""}
@@ -34,20 +34,24 @@ export default function UserProfile({ userHandle }: UserProfileProps) {
           className="h-[250px] w-full rounded-2xl object-cover"
         />
       </div>
-      <div className="flex w-full justify-center space-x-4">
+      <div className="flex w-full flex-col-reverse justify-center gap-4 xl:flex-row">
         <div className="flex w-full flex-1 flex-col space-y-4">
           <Card className="flex-col items-start space-y-6 p-10">
             <div className="flex flex-row items-center space-x-4">
               <UserAvatar user={userData} size="lg" />
               <div className="flex flex-col">
-                <span className="text-3xl font-extrabold">{userData.name}</span>
-                <span className="text-lg font-bold text-lime-600">
+                <span className="text-2xl font-extrabold sm:text-3xl">
+                  {userData.name}
+                </span>
+                <span className="text-base font-bold text-lime-600 sm:text-lg">
                   @{userData.handle}
                 </span>
               </div>
             </div>
             <div>
-              <span className="whitespace-pre">{userData.profile?.bio}</span>
+              <span className="w-full whitespace-pre-wrap text-sm sm:text-base">
+                {userData.profile?.bio}
+              </span>
             </div>
             <div className="flex flex-col gap-4">
               {userData.profile?.socialLinks.map((link) => (
@@ -56,13 +60,13 @@ export default function UserProfile({ userHandle }: UserProfileProps) {
             </div>
           </Card>
           <Card className="flex-col items-start space-y-6 px-0 pb-0 pt-10">
-            <h1 className="self-center px-10 text-2xl font-extrabold">
+            <h1 className="self-center px-10 text-xl font-extrabold sm:text-2xl">
               Top Teappers ✨
             </h1>
             <TopTeapers teaps={userData.teaps} />
           </Card>
         </div>
-        <Card className="flex h-full max-w-sm flex-col space-y-6 p-10">
+        <Card className="flex h-full w-full flex-col space-y-6 p-10 xl:max-w-sm">
           <Donate userId={userData.id} />
         </Card>
       </div>

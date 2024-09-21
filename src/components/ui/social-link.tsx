@@ -74,8 +74,8 @@ export default function Link({ link, showActions = false, onEdit }: LinkProps) {
   };
 
   return (
-    <div className="group flex flex-row items-center gap-4 text-sm">
-      <div className="flex flex-col">
+    <div className="group flex flex-row items-center gap-4 text-xs sm:text-sm">
+      <div className="flex flex-col gap-1">
         <div className="flex flex-row items-center gap-2">
           {PlatformIcon ? <PlatformIcon size={14} /> : <Link2 size={16} />}
           <span>{link.title}</span>
@@ -85,7 +85,7 @@ export default function Link({ link, showActions = false, onEdit }: LinkProps) {
         </a>
       </div>
       {showActions && (
-        <div className="flex flex-row items-center gap-2 opacity-0 group-hover:opacity-100">
+        <div className="flex flex-row items-center gap-2">
           <Button size="icon" variant="outline" onClick={onEdit}>
             <Edit2 size={16} />
           </Button>
