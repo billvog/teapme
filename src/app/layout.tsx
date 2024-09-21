@@ -36,7 +36,7 @@ export default function RootLayout({
         <Providers>
           <>
             <Navbar />
-            <div className="h-full w-full max-w-5xl self-center py-10">
+            <div className="w-full max-w-5xl flex-1 self-center py-10">
               {children}
             </div>
             <Footer />
