@@ -1,4 +1,5 @@
 import { db } from "@/server/db";
+import { WithPostHogClient } from "@/server/posthog";
 import Stripe from "stripe";
 
 export async function onAccountUpdated(account: Stripe.Account) {
@@ -18,7 +19,17 @@ export async function onAccountUpdated(account: Stripe.Account) {
     where: { id: user.id },
   });
 
-  // Todo: Track the user's stripe account update
+  // Track
+  await WithPostHogClient((posthog) => {
+    posthog.capture({
+      distinctId: user.id,
+      event: "stripe account updated",
+      properties: {
+        accountId: account.id,
+        detailsSubmitted: account.details_submitted,
+      },
+    });
+  });
 }
 
 export async function onCheckoutSessionCompleted(
@@ -35,7 +46,17 @@ export async function onCheckoutSessionCompleted(
     },
   });
 
-  // Todo: Track the checkout session completion
+  // Track
+  await WithPostHogClient((posthog) => {
+    posthog.capture({
+      distinctId: session.metadata?.teapId as string,
+      event: "stripe checkout session completed",
+      properties: {
+        sessionId: session.id,
+        paymentStatus: session.payment_status,
+      },
+    });
+  });
 }
 
 export async function onCheckoutSessionExpired(
@@ -47,6 +68,17 @@ export async function onCheckoutSessionExpired(
 
   await db.teap.delete({
     where: { id: session.metadata.teapId },
+  });
+
+  // Track
+  await WithPostHogClient((posthog) => {
+    posthog.capture({
+      distinctId: session.metadata?.teapId as string,
+      event: "stripe checkout session expired",
+      properties: {
+        sessionId: session.id,
+      },
+    });
   });
 }
 
@@ -66,4 +98,15 @@ export async function onCheckoutSessionAsyncPaymentFailed(
   //     paymentStatus: "failed",
   //   },
   // });
+
+  // Track
+  await WithPostHogClient((posthog) => {
+    posthog.capture({
+      distinctId: session.metadata?.teapId as string,
+      event: "stripe checkout session payment failed",
+      properties: {
+        sessionId: session.id,
+      },
+    });
+  });
 }
