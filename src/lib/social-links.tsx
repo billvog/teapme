@@ -83,3 +83,15 @@ export const getSocialPlatform = (url: string) => {
     return null;
   }
 };
+
+export const formatClickCount = (count: number) => {
+  const shortFormatter = Intl.NumberFormat("en", { notation: "compact" });
+  const longFormatter = Intl.NumberFormat("en", {
+    notation: "standard",
+  });
+
+  return {
+    short: shortFormatter.format(count),
+    long: longFormatter.format(count),
+  };
+};

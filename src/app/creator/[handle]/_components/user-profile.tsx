@@ -30,6 +30,7 @@ export default function UserProfile({ userHandle }: UserProfileProps) {
           src={userData.profile?.banner ?? ""}
           width={0}
           height={0}
+          priority
           sizes="100vw"
           className="h-[250px] w-full rounded-2xl object-cover"
         />

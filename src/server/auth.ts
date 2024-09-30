@@ -6,16 +6,37 @@ import { db } from "@/server/db";
 
 export const authOptions: NextAuthConfig = {
   callbacks: {
-    jwt({ token, user }) {
-      if (user && user.id) {
-        token.id = user.id;
+    async jwt({ token, user }) {
+      if (!user || !user.id) {
+        return token;
+      }
+
+      // Add the user id to the token
+      token.id = user.id;
+
+      // Fetch the profile id
+      const profile = await db.profile.findUnique({
+        where: {
+          userId: user.id,
+        },
+      });
+
+      // ...and add it to the token
+      if (profile) {
+        token.profileId = profile.id;
       }
 
       return token;
     },
     session({ session, token }) {
-      session.user.id = token.id;
-      return session;
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+          profileId: token.profileId,
+        },
+      };
     },
   },
   events: {
