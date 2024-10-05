@@ -4,7 +4,6 @@ import { profileEdit } from "@/actions/profile/edit-profile";
 import { ContextUser, useAuth } from "@/app/_contexts/AuthContext";
 import SocialLinks from "@/app/dashboard/settings/_components/social-links";
 import Tab from "@/app/dashboard/settings/_components/tab";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -17,14 +16,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { UserAvatar } from "@/components/ui/user/avatar";
 import EditAvatarModal from "@/components/ui/user/edit-avatar-modal";
 import EditBannerModal from "@/components/ui/user/edit-banner-modal";
 import { profileSchema } from "@/schemas/profile.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Pencil, ThumbsUp } from "lucide-react";
-import Image from "next/image";
+import { ThumbsUp } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
